@@ -23,6 +23,6 @@ Y_INDENT = 7
 healthbar_width = window_width - 2 * X_INDENT
 healthbar_height = 100
 
+
 if __name__ == '__main__':
     print('This module is not for direct run!')
-

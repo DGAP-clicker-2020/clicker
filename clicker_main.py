@@ -10,9 +10,10 @@ def main():
     screen = pygame.display.set_mode((window_width, window_height))
     screen.fill(BLACK)
     pygame.display.update()
-    clock = pygame.time.Clock()
-    change_name_btn = create_change_name_btn(screen)
 
+    clock = pygame.time.Clock()
+
+    change_name_btn = create_change_name_btn(screen)
 
     players = read_players_from_file(screen)
     current_player = define_current_player(players)
@@ -33,7 +34,6 @@ def main():
                 players, current_player = handle_new_data(new_name, players, current_player)
                 target = Target(hp=30 + current_player.targets_killed * 3)
 
-
             if event.type == pygame.QUIT:
                 finished = True
 
@@ -44,9 +44,7 @@ def main():
         target.afk_hurt(current_player.afk_power/FPS)
 
         if target.died:
-            current_player.hand_power += 1
-            current_player.afk_power += 0.5
-            current_player.targets_killed += 1
+            current_player.power_up()
             target = Target(hp=30 + current_player.targets_killed * 3)
 
         pygame.display.update()

@@ -24,7 +24,6 @@ def read_players_from_file(screen):
         new_dict = json.load(file)
         file.close()
         for val in new_dict.values():
-            val = json.loads(val)
             players.append(Player(name=val['name'],
                                   id_num=int(val['id_num']),
                                   hand_power=int(val['hand_power']),
@@ -54,7 +53,7 @@ def write_players_to_file(players):
     with open('players.json', 'w') as file:
         dic = {}
         for i, pl in enumerate(players):
-            dic[i] = pl.to_json()
+            dic[i] = pl.__dict__
         json.dump(dic, file)
 
 
@@ -74,8 +73,10 @@ class Player:
         self.last_player = last_player
         self.targets_killed = targets_killed
 
-    def to_json(self):
-        return json.dumps(self.__dict__)
+    def power_up(self):
+        self.hand_power += 1
+        self.afk_power += 0.5
+        self.targets_killed += 1
 
 
 if __name__ == '__main__':

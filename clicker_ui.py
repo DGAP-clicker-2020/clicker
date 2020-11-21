@@ -28,7 +28,6 @@ def change_player(screen):
         border_width=2
     )
 
-
     f = True
     finished = False
 
