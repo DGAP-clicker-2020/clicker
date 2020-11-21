@@ -2,41 +2,7 @@
 
 from clicker_target import *
 from clicker_player import *
-from button import Button
-
-
-def change_player(screen):
-    f2 = pygame.font.SysFont('serif', 60)
-    f1 = pygame.font.SysFont('serif', 60)
-    text2 = f1.render("Введите ваше имя", 0, (0, 180, 0))
-    pygame.display.update()
-    clock = pygame.time.Clock()
-
-    f = True
-    finished = False
-
-    string = ''
-    while not finished:
-        while f:
-            clock.tick(FPS)
-            screen.fill(BLACK)
-            screen.blit(text2, (10, 10))
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    finished = True
-                    f = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        f = False
-                        finished = True
-                        break
-                    elif event.key == 8:
-                        string = string[:-1]
-                    else:
-                        string += event.unicode
-            text3 = f2.render(string, 0, (200, 0, 0))
-            screen.blit(text3, (10, 70))
-            pygame.display.update()
+from clicker_ui import *
 
 
 def main():
@@ -45,21 +11,10 @@ def main():
     screen.fill(BLACK)
     pygame.display.update()
     clock = pygame.time.Clock()
+    change_name_btn = create_change_name_btn(screen)
 
-    btn = Button(
-        screen,
-        10,
-        130,
-        change_player,
-        text='Change player',
-        color=(200, 200, 200),
-        hover_color=(235, 146, 37),
-        clicked_color=(213, 23, 23),
-        border_radius=5,
-        border_width=2
-    )
 
-    players = read_players_from_file()
+    players = read_players_from_file(screen)
     current_player = define_current_player(players)
 
     target = Target(hp=10 + current_player.targets_killed*3)
@@ -70,10 +25,15 @@ def main():
         clock.tick(FPS)
         screen.fill(BLACK)
         target.draw(screen)
-        btn.draw()
+        change_name_btn.draw()
 
         for event in pygame.event.get():
-            btn.handle_event(event, screen)
+            new_data, new_name = change_name_btn.handle_event(event, screen)
+            if new_data:
+                players, current_player = handle_new_data(new_name, players, current_player)
+                target = Target(hp=30 + current_player.targets_killed * 3)
+
+
             if event.type == pygame.QUIT:
                 finished = True
 
