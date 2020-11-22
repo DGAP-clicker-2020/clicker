@@ -108,9 +108,16 @@ class Player:
         """
         Улучшение игрока после уничтожения цели
         """
-        self.hand_power += 1
-        self.afk_power += 0.5
+        self.hand_power += HAND_POWER_BONUS
+        self.afk_power += AFK_POWER_BONUS
         self.targets_killed += 1
+
+    def draw_stats(self, screen):
+        for i, key_n_val in enumerate(self.__dict__.items()):
+            key, val = key_n_val
+            text = lower_font.render(str(key)+': '+str(val), 0, (0, 160, 255))
+            screen.blit(text, (250, 100 + 30 * i))
+
 
 
 if __name__ == '__main__':

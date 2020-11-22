@@ -2,6 +2,11 @@ from pygame.draw import *
 from random import choice
 
 from clicker_settings import *
+from clicker_ui import lower_font
+
+
+def to_fixed(num_obj, digits=0):
+    return f"{num_obj:.{digits}f}"
 
 
 class Target:
@@ -73,6 +78,9 @@ class Target:
         rect(surface, (255 * (red_factor if red_factor < 1 else 1),
                        255 * (green_factor if green_factor > 0 else 0), 0),
              (X_INDENT, Y_INDENT, healthbar_width * green_factor, healthbar_height))
+
+        hp_text = lower_font.render(str(to_fixed(self.hp, 1))+'/'+str(self.max_hp), 0, BLACK, ORANGE)
+        surface.blit(hp_text, (healthbar_width // 3, healthbar_height // 2 - 10))
 
 
 if __name__ == '__main__':

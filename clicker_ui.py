@@ -3,15 +3,19 @@ from button import Button
 from clicker_settings import *
 
 
+pygame.init()
+
+large_font = pygame.font.SysFont('serif', 60)
+lower_font = pygame.font.SysFont('serif', 30)
+
+
 def change_player(screen):
     """
     Функия обрабатывает ввод имени игрока
     :param screen: экран
     :return: имя нового игрока, и флаг, показывающий осымысленность данных
     """
-    f2 = pygame.font.SysFont('serif', 60)
-    f1 = pygame.font.SysFont('serif', 60)
-    text2 = f1.render("Введите ваше имя", 0, (0, 180, 0))
+    hello_text = large_font.render("Введите ваше имя", 0, (0, 180, 0))
     pygame.display.update()
     clock = pygame.time.Clock()
     new_data = False
@@ -37,7 +41,7 @@ def change_player(screen):
         while f:
             clock.tick(FPS)
             screen.fill(BLACK)
-            screen.blit(text2, (10, 10))
+            screen.blit(hello_text, (10, 10))
             cancel_btn.draw()
             for event in pygame.event.get():
                 finished, f = cancel_btn.handle_event(event, screen)
@@ -54,8 +58,8 @@ def change_player(screen):
                         new_name = new_name[:-1]
                     else:
                         new_name += event.unicode
-            text3 = f2.render(new_name, 0, (200, 0, 0))
-            screen.blit(text3, (10, 70))
+            current_name_text = large_font.render(new_name, 0, (200, 0, 0))
+            screen.blit(current_name_text, (10, 70))
             pygame.display.update()
     return new_data, new_name
 
