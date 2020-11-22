@@ -49,7 +49,7 @@ def main():
         if target.died:
             current_player.power_up()
             target = Target(hp=INITIAL_TARGET_HP + current_player.targets_killed * TARGET_HP_MULTIPLIER)
-
+            print('есть пробитие')
         pygame.display.update()
 
     current_player.last_player = True
