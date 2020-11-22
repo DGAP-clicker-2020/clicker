@@ -13,15 +13,21 @@ WHITE = (255, 255, 255)
 CYAN = (0, 255, 255)
 BLACK = (0, 0, 0)
 
-RADIUS = 80
-DR = 40
-
 COLORS = [RED, BLUE, GREEN, ORANGE, GRAY, YELLOW, WHITE, CYAN]
 
-X_INDENT = 20
-Y_INDENT = 7
+
+RADIUS = 80  # минимальный радиус цели
+DR = 40  # возможное изменение радиуса цели
+
+
+X_INDENT = 20  # отступ хп бара по x
+Y_INDENT = 7  # отступ хп бара по y
 healthbar_width = window_width - 2 * X_INDENT
 healthbar_height = 100
+
+
+INITIAL_TARGET_HP = 10
+TARGET_HP_MULTIPLIER = 3
 
 
 if __name__ == '__main__':

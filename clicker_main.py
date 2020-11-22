@@ -6,6 +6,9 @@ from clicker_ui import *
 
 
 def main():
+    """
+    Главная функция. Делает всё(почти).
+    """
     pygame.init()
     screen = pygame.display.set_mode((window_width, window_height))
     screen.fill(BLACK)
@@ -18,7 +21,7 @@ def main():
     players = read_players_from_file(screen)
     current_player = define_current_player(players)
 
-    target = Target(hp=10 + current_player.targets_killed*3)
+    target = Target(hp=INITIAL_TARGET_HP + current_player.targets_killed * TARGET_HP_MULTIPLIER)
 
     finished = False
 
@@ -32,20 +35,20 @@ def main():
             new_data, new_name = change_name_btn.handle_event(event, screen)
             if new_data:
                 players, current_player = handle_new_data(new_name, players, current_player)
-                target = Target(hp=30 + current_player.targets_killed * 3)
+                target = Target(hp=INITIAL_TARGET_HP + current_player.targets_killed * TARGET_HP_MULTIPLIER)
 
             if event.type == pygame.QUIT:
                 finished = True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if target.check_click(event):
-                    target.click_hurt(current_player.hand_power)
+                    target.hurt(current_player.hand_power)
 
-        target.afk_hurt(current_player.afk_power/FPS)
+        target.hurt(current_player.afk_power/FPS)
 
         if target.died:
             current_player.power_up()
-            target = Target(hp=30 + current_player.targets_killed * 3)
+            target = Target(hp=INITIAL_TARGET_HP + current_player.targets_killed * TARGET_HP_MULTIPLIER)
 
         pygame.display.update()
 

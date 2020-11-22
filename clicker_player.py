@@ -5,6 +5,13 @@ import json
 
 
 def handle_new_data(new_name, players, current_player):
+    """
+    Функция обрабатывает новое введённое имя после нажатия на кнопку change name
+    :param new_name: имя нового игрока
+    :param players: список игроков
+    :param current_player: текущий игрок
+    :return: возвращает изменённый список игроков и текущего игрока
+    """
     current_player.last_player = False
     really_new_player = True
     for pl in players:
@@ -18,6 +25,12 @@ def handle_new_data(new_name, players, current_player):
 
 
 def read_players_from_file(screen):
+    """
+    Функция считывает игроков из базы данных
+    :rtype: list
+    :param screen: экран
+    :return: список игроков
+    """
     players = []
     try:
         file = open('players.json', 'r')
@@ -44,12 +57,21 @@ def read_players_from_file(screen):
 
 
 def define_current_player(players):
+    """
+    Функция определяет текущего игрока
+    :param players: список игроков
+    :return: возвращает текущего игрока
+    """
     for pl in players:
         if pl.last_player:
             return pl
 
 
 def write_players_to_file(players):
+    """
+    Функция записывает информацию об игроках в json-файл
+    :param players: список игроков
+    """
     with open('players.json', 'w') as file:
         dic = {}
         for i, pl in enumerate(players):
@@ -66,6 +88,15 @@ class Player:
                  last_player=False,
                  targets_killed=0,
                  afk_power=0.0):
+        """
+        Сборщик экземпляра класса Player
+        :param name: имя
+        :param id_num: идентификационный номер
+        :param hand_power: сила клика
+        :param last_player: Флаг-статус последнего игрока
+        :param targets_killed: Колличество убитых целей
+        :param afk_power: Урон каждую секунду
+        """
         self.name = name
         self.id_num = id_num
         self.hand_power = hand_power
@@ -74,6 +105,9 @@ class Player:
         self.targets_killed = targets_killed
 
     def power_up(self):
+        """
+        Улучшение игрока после уничтожения цели
+        """
         self.hand_power += 1
         self.afk_power += 0.5
         self.targets_killed += 1
