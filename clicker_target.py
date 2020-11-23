@@ -1,5 +1,4 @@
 from pygame.draw import *
-from random import choice
 import pygame
 
 from clicker_settings import *

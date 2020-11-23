@@ -3,6 +3,7 @@
 from clicker_target import *
 from clicker_player import *
 from clicker_ui import *
+from clicker_settings import *
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
-        draw_back_picture('kpm_1.jpg', screen)
+        draw_back_picture(back_pict, screen)
         target.draw(screen)
         change_name_btn.draw()
         current_player.draw_stats(screen)
