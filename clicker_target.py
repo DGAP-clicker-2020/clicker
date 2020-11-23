@@ -78,7 +78,7 @@ class Target:
 
         rect(surface, (255 * (red_factor if red_factor < 1 else 1),
                        255 * (green_factor if green_factor > 0 else 0), 0),
-             (X_INDENT, Y_INDENT, healthbar_width * green_factor, healthbar_height))
+             (X_INDENT + 3, Y_INDENT + 3, healthbar_width * green_factor - 3, healthbar_height - 6))
 
         hp_text = large_font.render(str(to_fixed(self.hp, 0))+'/'+str(self.max_hp), 0, BLACK)
         surface.blit(hp_text, (healthbar_width // 3, healthbar_height // 2 - 10))
