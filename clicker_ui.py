@@ -5,8 +5,8 @@ from clicker_settings import *
 
 pygame.init()
 
-large_font = pygame.font.SysFont('serif', 60)
-lower_font = pygame.font.SysFont('serif', 30)
+large_font = pygame.font.Font('terminator.ttf', 30)
+lower_font = pygame.font.Font('terminator.ttf', 15)
 
 
 def change_player(screen):
@@ -15,7 +15,7 @@ def change_player(screen):
     :param screen: экран
     :return: имя нового игрока, и флаг, показывающий осымысленность данных
     """
-    hello_text = large_font.render("Введите ваше имя", False, (0, 180, 0))
+    hello_text = large_font.render("TYPE YOUR NAME", False, (0, 180, 0))
     pygame.display.update()
     clock = pygame.time.Clock()
     new_data = False
@@ -25,7 +25,7 @@ def change_player(screen):
         10,
         150,
         cancel_name_enter,
-        text='Cancel',
+        text='ENTER',
         color=(200, 200, 200),
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),

@@ -27,7 +27,7 @@ def main():
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
-
+        draw_back_picture('kpm_1.jpg', screen)
         target.draw(screen)
         change_name_btn.draw()
         current_player.draw_stats(screen)
@@ -50,7 +50,6 @@ def main():
         if target.died:
             current_player.power_up()
             target = Target(hp=INITIAL_TARGET_HP + current_player.targets_killed * TARGET_HP_MULTIPLIER)
-            print('есть пробитие')
         pygame.display.update()
 
     current_player.last_player = True
