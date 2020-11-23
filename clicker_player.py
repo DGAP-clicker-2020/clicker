@@ -38,11 +38,11 @@ def read_players_from_file(screen):
         file.close()
         for val in new_dict.values():
             players.append(Player(name=val['name'],
-                                  id_num=int(val['id_num']),
-                                  hand_power=int(val['hand_power']),
-                                  last_player=bool(val['last_player']),
-                                  targets_killed=int(val['targets_killed']),
-                                  afk_power=float(val['afk_power'])))
+                                  id_num=val['id_num'],
+                                  hand_power=val['hand_power'],
+                                  last_player=val['last_player'],
+                                  targets_killed=val['targets_killed'],
+                                  afk_power=val['afk_power']))
     except json.JSONDecodeError and FileNotFoundError:
         pass
     if not players:
@@ -117,7 +117,6 @@ class Player:
             key, val = key_n_val
             text = lower_font.render(str(key)+': '+str(val), 0, (0, 160, 255))
             screen.blit(text, (250, 100 + 30 * i))
-
 
 
 if __name__ == '__main__':
