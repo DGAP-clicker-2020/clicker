@@ -115,8 +115,8 @@ class Player:
     def draw_stats(self, screen):
         for i, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
-            text = lower_font.render(str(key)+': '+str(val), 0, (0, 160, 255))
-            screen.blit(text, (250, 100 + 30 * i))
+            text = lower_font.render(str(key)+': '+str(val), False, BLACK)
+            screen.blit(text, (230, 110 + 20 * i))
 
 
 if __name__ == '__main__':
