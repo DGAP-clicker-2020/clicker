@@ -71,7 +71,7 @@ class Target:
         Рисует хп бар на экране
         :param surface: экран
         """
-        rect(surface, BLUE, (0 + X_INDENT, 0 + Y_INDENT, healthbar_width, healthbar_height), 5)
+        rect(surface, BLUE, (X_INDENT, Y_INDENT, healthbar_width, healthbar_height), 5)
 
         green_factor = self.hp / self.max_hp
         red_factor = 1 - green_factor
@@ -81,7 +81,10 @@ class Target:
              (X_INDENT + 3, Y_INDENT + 3, healthbar_width * green_factor - 3, healthbar_height - 6))
 
         hp_text = large_font.render(str(to_fixed(self.hp, 0))+'/'+str(self.max_hp), 0, BLACK)
-        surface.blit(hp_text, (healthbar_width // 3, healthbar_height // 2 - 10))
+        x, y = hp_text.get_width(), hp_text.get_height()
+        print(x, y)
+        surface.blit(hp_text, (X_INDENT + (healthbar_width - x) / 2, Y_INDENT + (healthbar_height - y) / 2))
+        # fixme сделать, чтобы напись не дёргалась
 
 
 def draw_back_picture(name, surface):
