@@ -33,14 +33,10 @@ def main():
         current_player.draw_stats(screen)
 
         for event in pygame.event.get():
-            new_data = False
-            new_name = None
-            try:
-                new_data, new_name = change_name_btn.handle_event(event, screen)
-            except TypeError:
-                pass
-            if new_data:
-                players, current_player = handle_new_data(new_name, players, current_player)
+
+            last_player = current_player
+            players, current_player = handle_change_name_events(change_name_btn, event, screen, players, current_player)
+            if current_player != last_player:
                 target = Target(hp=INITIAL_TARGET_HP + current_player.targets_killed * TARGET_HP_MULTIPLIER)
 
             if event.type == pygame.QUIT:

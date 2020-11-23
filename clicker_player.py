@@ -4,6 +4,28 @@ from random import randint
 import json
 
 
+def handle_change_name_events(change_name_btn, event, screen, players, current_player):
+    """
+    Функция обрабатывает нажатие кнопки и смену  имени
+    :param change_name_btn: кнопка
+    :param event: pygame event
+    :param screen: экран
+    :param players: список игроков
+    :param current_player: текущий игрок
+    :return: список игроков и текущего игрока
+    """
+    new_data = False
+    new_name = None
+    try:
+        new_data, new_name = change_name_btn.handle_event(event, screen)
+    except TypeError:
+        pass
+    if new_data:
+        return handle_new_data(new_name, players, current_player)
+    else:
+        return players, current_player
+
+
 def handle_new_data(new_name, players, current_player):
     """
     Функция обрабатывает новое введённое имя после нажатия на кнопку change name
