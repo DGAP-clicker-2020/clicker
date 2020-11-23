@@ -1,3 +1,3 @@
 # clicker
 
-MIKHAIL_BRANCH
+ИГРА КЛИКЕР

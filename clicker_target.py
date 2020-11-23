@@ -82,7 +82,7 @@ class Target:
              (X_INDENT, Y_INDENT, healthbar_width * green_factor, healthbar_height))
 
         hp_text = large_font.render(str(to_fixed(self.hp, 0))+'/'+str(self.max_hp), 0, BLACK)
-        surface.blit(hp_text, (healthbar_width // 3, healthbar_height // 2))
+        surface.blit(hp_text, (healthbar_width // 3, healthbar_height // 2 - 10))
 
 
 def draw_back_picture(name, surface):
