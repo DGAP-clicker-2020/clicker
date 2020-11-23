@@ -27,7 +27,11 @@ healthbar_height = 100
 
 
 INITIAL_TARGET_HP = 10
-TARGET_HP_MULTIPLIER = 3
+TARGET_HP_MULTIPLIER = 6
+
+
+HAND_POWER_BONUS = 1
+AFK_POWER_BONUS = 0.5
 
 
 if __name__ == '__main__':

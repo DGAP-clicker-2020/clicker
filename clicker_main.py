@@ -9,7 +9,6 @@ def main():
     """
     Главная функция. Делает всё(почти).
     """
-    pygame.init()
     screen = pygame.display.set_mode((window_width, window_height))
     screen.fill(BLACK)
     pygame.display.update()
@@ -28,8 +27,10 @@ def main():
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
+
         target.draw(screen)
         change_name_btn.draw()
+        current_player.draw_stats(screen)
 
         for event in pygame.event.get():
             new_data, new_name = change_name_btn.handle_event(event, screen)
@@ -54,7 +55,6 @@ def main():
 
     current_player.last_player = True
     write_players_to_file(players)
-
 
 
 if __name__ == '__main__':
