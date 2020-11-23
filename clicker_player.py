@@ -43,7 +43,7 @@ def read_players_from_file(screen):
                                   last_player=val['last_player'],
                                   targets_killed=val['targets_killed'],
                                   afk_power=val['afk_power']))
-    except json.JSONDecodeError and FileNotFoundError:
+    except (json.JSONDecodeError, FileNotFoundError):
         pass
     if not players:
         new_data, new_name = change_player(screen)
