@@ -1,8 +1,9 @@
 from pygame.draw import *
 from random import choice
+import pygame
 
 from clicker_settings import *
-from clicker_ui import lower_font
+from clicker_ui import lower_font, large_font
 
 
 def to_fixed(num_obj, digits=0):
@@ -46,6 +47,7 @@ class Target:
         Обрабатывает нанесение урона цели
         :param power: сила урона
         """
+
         self.hp -= power
         self.r = RADIUS + DR * self.hp / self.max_hp
         self.check_died()
@@ -79,8 +81,14 @@ class Target:
                        255 * (green_factor if green_factor > 0 else 0), 0),
              (X_INDENT, Y_INDENT, healthbar_width * green_factor, healthbar_height))
 
-        hp_text = lower_font.render(str(to_fixed(self.hp, 1))+'/'+str(self.max_hp), 0, BLACK, ORANGE)
+        hp_text = large_font.render(str(to_fixed(self.hp, 0))+'/'+str(self.max_hp), 0, BLACK)
         surface.blit(hp_text, (healthbar_width // 3, healthbar_height // 2 - 10))
+
+
+def draw_back_picture(name, surface):
+    """рисует задний фон
+    type name(названия файла): string"""
+    surface.blit(pygame.image.load(name), (0, 0, window_width, window_height))
 
 
 if __name__ == '__main__':

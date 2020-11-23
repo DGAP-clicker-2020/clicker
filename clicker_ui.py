@@ -5,8 +5,8 @@ from clicker_settings import *
 
 pygame.init()
 
-large_font = pygame.font.SysFont('serif', 60)
-lower_font = pygame.font.SysFont('serif', 30)
+large_font = pygame.font.Font('terminator.ttf', 30)
+lower_font = pygame.font.Font('terminator.ttf', 15)
 
 
 def change_player(screen):
@@ -15,7 +15,7 @@ def change_player(screen):
     :param screen: экран
     :return: имя нового игрока, и флаг, показывающий осымысленность данных
     """
-    hello_text = large_font.render("Введите ваше имя", False, (0, 180, 0))
+    hello_text = large_font.render("TYPE YOUR NAME", False, (0, 180, 0))
     pygame.display.update()
     clock = pygame.time.Clock()
     new_data = False
@@ -38,29 +38,26 @@ def change_player(screen):
 
     new_name = ''
     while not finished:
-        while f:
-            clock.tick(FPS)
-            screen.fill(BLACK)
-            screen.blit(hello_text, (10, 10))
-            cancel_btn.draw()
-            for event in pygame.event.get():
-                finished, f = cancel_btn.handle_event(event, screen)
-                if event.type == pygame.QUIT:
+        clock.tick(FPS)
+        screen.fill(BLACK)
+        screen.blit(hello_text, (10, 10))
+        cancel_btn.draw()
+        for event in pygame.event.get():
+            finished = cancel_btn.handle_event(event, screen)
+            if event.type == pygame.QUIT:
+                finished = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
                     finished = True
-                    f = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        f = False
-                        finished = True
-                        new_data = True
-                        break
-                    elif event.key == 8:
-                        new_name = new_name[:-1]
-                    else:
-                        new_name += event.unicode
-            current_name_text = large_font.render(new_name, False, (200, 0, 0))
-            screen.blit(current_name_text, (10, 70))
-            pygame.display.update()
+                    new_data = True
+                    break
+                elif event.key == 8:
+                    new_name = new_name[:-1]
+                else:
+                    new_name += event.unicode
+        current_name_text = large_font.render(new_name, False, (200, 0, 0))
+        screen.blit(current_name_text, (10, 70))
+        pygame.display.update()
     return new_data, new_name
 
 
@@ -89,7 +86,7 @@ def cancel_name_enter(*args):
     Возвращает значения, необходимые для выхода из цикла обработки ввода нового имени
     :rtype: bool
     """
-    return True, False
+    return True
 
 
 if __name__ == '__main__':
