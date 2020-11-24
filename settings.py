@@ -1,4 +1,3 @@
-from random import choice
 import os
 
 FPS = 60
@@ -36,8 +35,6 @@ back_pictures = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg']  # массив с наз
 
 for i, pic in enumerate(back_pictures):
     back_pictures[i] = os.path.join('back_pictures', pic)  # нормальный путь к файлам картинок
-
-back_pict = choice(back_pictures)  # выбирает начальный фон
 
 if __name__ == '__main__':
     print('This module is not for direct run!')
