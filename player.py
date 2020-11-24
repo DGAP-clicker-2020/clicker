@@ -1,29 +1,8 @@
-from clicker_ui import *
+import ui
+from settings import *
 
 from random import randint
 import json
-
-
-def handle_change_name_events(change_name_btn, event, screen, players, current_player):
-    """
-    Функция обрабатывает нажатие кнопки и смену  имени
-    :param change_name_btn: кнопка
-    :param event: pygame event
-    :param screen: экран
-    :param players: список игроков
-    :param current_player: текущий игрок
-    :return: список игроков и текущего игрока
-    """
-    new_data = False
-    new_name = None
-    try:
-        new_data, new_name = change_name_btn.handle_event(event, screen)
-    except TypeError:
-        pass
-    if new_data:
-        return handle_new_data(new_name, players, current_player)
-    else:
-        return players, current_player
 
 
 def handle_new_data(new_name, players, current_player):
@@ -41,7 +20,10 @@ def handle_new_data(new_name, players, current_player):
             current_player = pl
             really_new_player = False
     if really_new_player:
-        current_player = Player(name=new_name)
+        if new_name == '':
+            current_player = Player
+        else:
+            current_player = Player(name=new_name)
         players.append(current_player)
     return players, current_player
 
@@ -68,7 +50,7 @@ def read_players_from_file(screen):
     except (json.JSONDecodeError, FileNotFoundError):
         pass
     if not players:
-        new_data, new_name = change_player(screen)
+        new_data, new_name = ui.change_player(screen)
         if not new_data:
             players.append(Player(name='Sample Name',
                                   last_player=True))
@@ -137,7 +119,7 @@ class Player:
     def draw_stats(self, screen):
         for i, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
-            text = lower_font.render(str(key)+': '+str(val), False, BLACK)
+            text = ui.lower_font.render(str(key) + ': ' + str(val), False, ui.BLACK)
             screen.blit(text, (230, 110 + 20 * i))
 
 

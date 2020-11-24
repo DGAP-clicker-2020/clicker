@@ -1,12 +1,16 @@
 from pygame.draw import *
-import pygame
+from random import choice
 
-from clicker_settings import *
-from clicker_ui import lower_font, large_font
+from settings import *
+from ui import large_font
 
 
 def to_fixed(num_obj, digits=0):
     return f"{num_obj:.{digits}f}"
+
+
+def calculate_hp(kills):
+    return INITIAL_TARGET_HP + kills * TARGET_HP_MULTIPLIER
 
 
 class Target:
@@ -14,7 +18,7 @@ class Target:
                  x=window_width // 2,
                  y=window_height // 2 + 20,
                  r=RADIUS + DR,
-                 hp=10,):
+                 hp=10, ):
         """
         Сборщик класса Target
         :param x: координата центра x
@@ -80,16 +84,10 @@ class Target:
                        255 * (green_factor if green_factor > 0 else 0), 0),
              (X_INDENT + 3, Y_INDENT + 3, healthbar_width * green_factor - 3, healthbar_height - 6))
 
-        hp_text = large_font.render(str(to_fixed(self.hp, 0))+'/'+str(self.max_hp), 0, BLACK)
+        hp_text = large_font.render(str(to_fixed(self.hp, 0)) +'/' + str(self.max_hp), 0, BLACK)
         x, y = hp_text.get_width(), hp_text.get_height()
         surface.blit(hp_text, (X_INDENT + (healthbar_width - x) / 2, Y_INDENT + (healthbar_height - y) / 2))
         # fixme сделать, чтобы напись не дёргалась
-
-
-def draw_back_picture(name, surface):
-    """рисует задний фон
-    type name(названия файла): string"""
-    surface.blit(pygame.image.load(name), (0, 0, window_width, window_height))
 
 
 if __name__ == '__main__':

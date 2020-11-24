@@ -112,18 +112,13 @@ class Button:
         place = text.get_rect(center=self.rect.center)
         self.surface.blit(text, place)
 
-    def handle_event(self, event, sc):
+    def handle_event(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.hovered = event.pos in self
-            return False
         elif event.type == pygame.MOUSEBUTTONDOWN and event.pos in self:
             self.clicked = True
-            return self.click_handler(sc)
         elif event.type == pygame.MOUSEBUTTONUP:
             self.clicked = False
-            return False
-        else:
-            return False
 
     def handle_events(self, event_list):
         for event in event_list:

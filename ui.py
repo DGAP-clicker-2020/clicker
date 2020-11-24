@@ -1,12 +1,18 @@
 import pygame
 from button import Button
-from clicker_settings import *
+from settings import *
 
 
 pygame.init()
 
 large_font = pygame.font.Font('terminator.ttf', 30)
 lower_font = pygame.font.Font('terminator.ttf', 15)
+
+
+def draw_back_picture(name, surface):
+    """рисует задний фон
+    type name(названия файла): string"""
+    surface.blit(pygame.image.load(name), (0, 0, window_width, window_height))
 
 
 def change_player(screen):
@@ -24,7 +30,6 @@ def change_player(screen):
         screen,
         10,
         150,
-        cancel_name_enter,
         text='Cancel',
         color=(200, 200, 200),
         hover_color=(235, 146, 37),
@@ -33,17 +38,20 @@ def change_player(screen):
         border_width=2
     )
 
-    f = True
     finished = False
 
     new_name = ''
     while not finished:
+        new_data = True
         clock.tick(FPS)
         screen.fill(BLACK)
         screen.blit(hello_text, (10, 10))
         cancel_btn.draw()
         for event in pygame.event.get():
-            finished = cancel_btn.handle_event(event, screen)
+            cancel_btn.handle_event(event)
+            if cancel_btn.clicked:
+                finished = True
+                new_data = False
             if event.type == pygame.QUIT:
                 finished = True
             if event.type == pygame.KEYDOWN:
@@ -71,7 +79,6 @@ def create_change_name_btn(screen):
             screen,
             10,
             130,
-            change_player,
             text='Change player',
             color=(200, 200, 200),
             hover_color=(235, 146, 37),
@@ -79,14 +86,6 @@ def create_change_name_btn(screen):
             border_radius=5,
             border_width=2
         )
-
-
-def cancel_name_enter(*args):
-    """
-    Возвращает значения, необходимые для выхода из цикла обработки ввода нового имени
-    :rtype: bool
-    """
-    return True
 
 
 if __name__ == '__main__':
