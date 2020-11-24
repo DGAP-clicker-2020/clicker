@@ -82,7 +82,6 @@ class Target:
 
         hp_text = large_font.render(str(to_fixed(self.hp, 0))+'/'+str(self.max_hp), 0, BLACK)
         x, y = hp_text.get_width(), hp_text.get_height()
-        print(x, y)
         surface.blit(hp_text, (X_INDENT + (healthbar_width - x) / 2, Y_INDENT + (healthbar_height - y) / 2))
         # fixme сделать, чтобы напись не дёргалась
 

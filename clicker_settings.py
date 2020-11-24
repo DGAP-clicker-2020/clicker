@@ -1,4 +1,5 @@
 from random import choice
+import os
 
 FPS = 60
 
@@ -33,9 +34,8 @@ AFK_POWER_BONUS = 0.5
 
 back_pictures = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg']  # массив с названием картинок заднего фона
 
-for i in range(len(back_pictures)):
-    back_pictures[i] = 'back_pictures\\' + back_pictures[i]  # нормальный путь к файлам картинок
-    # fixme не робит если написать for i back_pictures
+for i, pic in enumerate(back_pictures):
+    back_pictures[i] = os.path.join('back_pictures', pic)  # нормальный путь к файлам картинок
 
 back_pict = choice(back_pictures)  # выбирает начальный фон
 
