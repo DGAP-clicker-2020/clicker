@@ -1,12 +1,13 @@
 # main module
 
-import target
-import player
-import ui
-from settings import *
+from random import choice
 
 import pygame as pg
-from random import choice
+
+import player
+import target
+import ui
+from settings import *
 
 
 def main():
