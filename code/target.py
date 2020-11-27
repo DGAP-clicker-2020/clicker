@@ -84,7 +84,7 @@ class Target:
                        255 * (green_factor if green_factor > 0 else 0), 0),
              (X_INDENT + 3, Y_INDENT + 3, healthbar_width * green_factor - 3, healthbar_height - 6))
 
-        hp_text = large_font.render(str(to_fixed(self.hp, 0)) +'/' + str(self.max_hp), 0, BLACK)
+        hp_text = large_font.render(str(to_fixed(self.hp, 0)) + '/' + str(self.max_hp), 0, BLACK)
         x, y = hp_text.get_width(), hp_text.get_height()
         surface.blit(hp_text, (X_INDENT + (healthbar_width - x) / 2, Y_INDENT + (healthbar_height - y) / 2))
         # fixme сделать, чтобы напись не дёргалась
