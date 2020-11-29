@@ -22,8 +22,8 @@ def draw_back_picture(name, surface):
 def show_offline_income(money_earned, offline_time):
     cancel_btn = Button(
         screen,
-        10,
-        10,
+        5,
+        100,
         text='OK',
         color=(51, 153, 255),
         hover_color=(235, 146, 37),
@@ -33,16 +33,25 @@ def show_offline_income(money_earned, offline_time):
     )
     finished = False
     clock = pygame.time.Clock()
+    date = {'day': offline_time // 86400, 'hour': (offline_time % 86400) // 3600,
+            'minute': ((offline_time % 86400) % 3600) // 60, 'second': ((offline_time % 86400) % 3600) % 60}
+    date_str = ''
+    for k, v in date.items():
+        if v != 0:
+            if v == 1:
+                date_str += f'{v} {k} '
+            else:
+                date_str += f'{v} {k}s '
     text1 = large_font.render('You were offline', True, RED)
-    text2 = large_font.render(str(format(offline_time, '.0f')) + ' seconds and', True, RED)
-    text3 = large_font.render('earned ' + str(format(money_earned, '.0f')), True, RED)
+    text2 = large_font.render(date_str, True, RED)
+    text3 = large_font.render('and earned ' + str(format(money_earned, '.0f')), True, RED)
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
         draw_back_picture(back_pictures['mipt_logo.jpg'], screen)
-        screen.blit(text1, (5, 30))
-        screen.blit(text2, (5, 60))
-        screen.blit(text3, (5, 90))
+        screen.blit(text1, (5, 0))
+        screen.blit(text2, (5, 30))
+        screen.blit(text3, (5, 60))
         cancel_btn.draw()
         for event in pygame.event.get():
             cancel_btn.handle_event(event)

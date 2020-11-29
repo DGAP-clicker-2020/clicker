@@ -42,6 +42,7 @@ def main():
             menu_open_btn.handle_event(event)
 
             if change_name_btn.clicked:
+                player.write_players_to_file(players)
                 new_data, new_name = ui.change_player()
                 change_name_btn.clicked = False
                 if new_data:

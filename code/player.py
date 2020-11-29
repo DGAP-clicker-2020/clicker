@@ -133,6 +133,9 @@ class Player:
         self.current_target += 1
         self.current_target_level += 1
 
+    def get_init_money(self):
+        return self.money
+
     def draw_stats(self, screen):
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val

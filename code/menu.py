@@ -42,9 +42,11 @@ def menu_window():
         border_width=2
     )
 
-    hello_text = pygame.font.Font('terminator.ttf', 45).render("MENU", True, (0, 180, 0))
+    hello_text = pygame.font.Font('terminator.ttf', 45).render("MENU", True, ORANGE)
     clock = pygame.time.Clock()
     finished = False
+    '''initial_money = player.get_init_money(current_player)'''
+    # fixme сделать, чтобы при входе в меню, обновлялись деньги в меню
 
     while not finished:
         new_data = True
@@ -61,7 +63,7 @@ def menu_window():
             if event.type == pygame.QUIT:
                 finished = True
 
-        current_money_text = large_font.render('money: ' + str(current_player.money) + '$',
-                                               True, (255, 215, 0))
+        current_money_text = large_font.render('money: ' + str(current_player.money),
+                                               True, BLACK)
         screen.blit(current_money_text, (10, 70))
         pygame.display.update()
