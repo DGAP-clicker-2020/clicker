@@ -1,10 +1,7 @@
 # main module
 
 import time
-from random import choice
-
 import pygame as pg
-
 import player
 import target
 import ui

@@ -137,11 +137,11 @@ class Player:
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
             if key == 'money':
-                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.0f')), False, BLACK)
+                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.0f')), True, BLACK)
             elif key == 'current_target_level':
-                text = ui.lower_font.render('target_level' + ': ' + str(val), False, BLACK)
+                text = ui.lower_font.render('target_level' + ': ' + str(val), True, BLACK)
             else:
-                text = ui.lower_font.render(str(key) + ': ' + str(val), False, BLACK)
+                text = ui.lower_font.render(str(key) + ': ' + str(val), True, BLACK)
             screen.blit(text, (10, 200 + 20 * count))
 
     def calculate_offline_money(self):

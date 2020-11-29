@@ -33,9 +33,9 @@ def show_offline_income(money_earned, offline_time):
     )
     finished = False
     clock = pygame.time.Clock()
-    text1 = large_font.render('You were offline', False, RED)
-    text2 = large_font.render(str(format(offline_time, '.0f')) + ' seconds and', False, RED)
-    text3 = large_font.render('earned ' + str(format(money_earned, '.0f')), False, RED)
+    text1 = large_font.render('You were offline', True, RED)
+    text2 = large_font.render(str(format(offline_time, '.0f')) + ' seconds and', True, RED)
+    text3 = large_font.render('earned ' + str(format(money_earned, '.0f')), True, RED)
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
@@ -58,7 +58,7 @@ def change_player():
     Функия обрабатывает ввод имени игрока
     :return: имя нового игрока, и флаг, показывающий осымысленность данных
     """
-    hello_text = large_font.render("TYPE YOUR NAME", False, (0, 180, 0))
+    hello_text = large_font.render("TYPE YOUR NAME", True, (0, 180, 0))
     pygame.display.update()
     clock = pygame.time.Clock()
     new_data = False
@@ -66,7 +66,7 @@ def change_player():
     cancel_btn = Button(
         screen,
         10,
-        150,
+        130,
         text='Cancel',
         color=(51, 153, 255),
         hover_color=(235, 146, 37),
@@ -100,7 +100,7 @@ def change_player():
                     new_name = new_name[:-1]
                 else:
                     new_name += event.unicode
-        current_name_text = large_font.render(new_name, False, (200, 0, 0))
+        current_name_text = large_font.render(new_name, True, (200, 0, 0))
         screen.blit(current_name_text, (10, 70))
         pygame.display.update()
     return new_data, new_name

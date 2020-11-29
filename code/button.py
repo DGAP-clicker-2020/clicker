@@ -1,22 +1,31 @@
 from typing import Tuple, Callable
 
 import pygame
-from pygame.font import SysFont, get_default_font
 
 
 def _round_rect(surface, rect, color, radius=None):
-    trans = (255, 255, 1)
     if not radius:
-        pygame.draw.rect(surface, color, rect)
+        pygame.gfxdraw.rect(surface, color, rect)
         return
 
-    radius = min(radius, rect.width/2, rect.height/2)
+    radius = min(radius, rect.width / 2, rect.height / 2)
 
     r = rect.inflate(-radius * 2, -radius * 2)
     for corn in (r.topleft, r.topright, r.bottomleft, r.bottomright):
-        pygame.draw.circle(surface, color, corn, radius)
-    pygame.draw.rect(surface, color, r.inflate(radius*2, 0))
-    pygame.draw.rect(surface, color, r.inflate(0, radius*2))
+        pygame.gfxdraw.aacircle(surface, corn[0], corn[1], radius, color)
+        pygame.gfxdraw.filled_circle(surface, corn[0], corn[1], radius, color)
+    pygame.gfxdraw.aapolygon(surface, [r.inflate(radius * 2, 0).topleft, r.inflate(radius * 2, 0).topright,
+                                       r.inflate(radius * 2, 0).bottomright, r.inflate(radius * 2, 0).bottomleft],
+                             color)
+    pygame.gfxdraw.aapolygon(surface, [r.inflate(0, radius * 2).topleft, r.inflate(0, radius * 2).topright,
+                                       r.inflate(0, radius * 2).bottomright, r.inflate(0, radius * 2).bottomleft],
+                             color)
+    pygame.gfxdraw.filled_polygon(surface, [r.inflate(radius * 2, 0).topleft, r.inflate(radius * 2, 0).topright,
+                                            r.inflate(radius * 2, 0).bottomright, r.inflate(radius * 2, 0).bottomleft],
+                                  color)
+    pygame.gfxdraw.filled_polygon(surface, [r.inflate(0, radius * 2).topleft, r.inflate(0, radius * 2).topright,
+                                            r.inflate(0, radius * 2).bottomright, r.inflate(0, radius * 2).bottomleft],
+                                  color)
 
 
 class Button:
@@ -43,23 +52,24 @@ class Button:
     To check if given point is inside the button, use 'in' operator:
         if (120, 50) in button: ...
     """
+
     def __init__(
-        self,
-        surface: pygame.surface.Surface,
-        x: int,
-        y: int,
-        click_handler: Callable = lambda: None,
-        text="",
-        width=0,
-        height=0,
-        color: Tuple[int] = None,
-        border_width=0,
-        hover_color=None,
-        clicked_color=None,
-        border_radius=0,
-        border_color=None,
-        font: pygame.font.Font = None,
-        font_color=None
+            self,
+            surface: pygame.surface.Surface,
+            x: int,
+            y: int,
+            click_handler: Callable = lambda: None,
+            text="",
+            width=0,
+            height=0,
+            color: Tuple[int] = None,
+            border_width=0,
+            hover_color=None,
+            clicked_color=None,
+            border_radius=0,
+            border_color=None,
+            font: pygame.font.Font = None,
+            font_color=None
     ):
 
         self.surface = surface
@@ -74,7 +84,7 @@ class Button:
         self.text = text
 
         if font is None:
-            self.font = SysFont('couriernew', 20)
+            self.font = pygame.font.Font('terminator.ttf', 15)
 
         text_size = self.font.size(text)
         self.width = width or text_size[0] + self.border_width + 2
@@ -108,7 +118,7 @@ class Button:
                 color,
                 self.border_radius
             )
-        text = self.font.render(self.text, 1, self.font_color)
+        text = self.font.render(self.text, True, self.font_color)
         place = text.get_rect(center=self.rect.center)
         self.surface.blit(text, place)
 

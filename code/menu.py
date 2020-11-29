@@ -23,7 +23,7 @@ def create_menu_btn():
         clicked_color=(213, 23, 23),
         border_radius=5,
         border_width=2
-        )
+    )
 
 
 def menu_window():
@@ -42,7 +42,7 @@ def menu_window():
         border_width=2
     )
 
-    hello_text = large_font.render("MENU", False, (0, 180, 0))
+    hello_text = pygame.font.Font('terminator.ttf', 45).render("MENU", True, (0, 180, 0))
     clock = pygame.time.Clock()
     finished = False
 
@@ -61,8 +61,7 @@ def menu_window():
             if event.type == pygame.QUIT:
                 finished = True
 
-        current_money_text = lower_font.render(str(current_player.money), False, (200, 0, 0))
+        current_money_text = large_font.render('money: ' + str(current_player.money) + '$',
+                                               True, (255, 215, 0))
         screen.blit(current_money_text, (10, 70))
         pygame.display.update()
-
-
