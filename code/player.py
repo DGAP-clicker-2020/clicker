@@ -5,7 +5,6 @@ from random import randint
 
 import ui
 from settings import *
-from target import calculate_hp
 
 
 def handle_new_data(new_name, players, current_player):
@@ -95,8 +94,8 @@ class Player:
                  current_target_level=1,
                  afk_power=0.0,
                  money=0.0,
-                 last_login=time.time(),
-                 new_login=time.time(),
+                 last_login=int(time.time()),
+                 new_login=int(time.time()),
                  player_back_pict='kpm_1.jpg'
                  ):
         """
@@ -126,7 +125,7 @@ class Player:
         """
         Улучшение игрока после уничтожения цели
         """
-        self.money += math.exp(0.1 * self.current_target_level)
+        self.money += int(math.exp(0.1 * self.current_target_level))
         self.hand_power += HAND_POWER_BONUS
         self.afk_power += AFK_POWER_BONUS
         if self.current_target_level >= 5:

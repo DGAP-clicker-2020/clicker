@@ -69,7 +69,7 @@ def main():
         pg.display.update()
 
     current_player.last_player = True
-    current_player.last_login = time.time()
+    current_player.last_login = int(time.time())
     player.write_players_to_file(players)
 
 
