@@ -116,12 +116,12 @@ def create_change_name_btn():
         10,
         130,
         text='Change player',
-        color=(200, 200, 200),
+        color=(51, 153, 255),
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
         border_width=2
-        )
+    )
 
 
 if __name__ == '__main__':
