@@ -138,28 +138,21 @@ class Player:
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
             if key == 'money':
-                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.2e')), False, BLACK)
+                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.0f')), False, BLACK)
             elif key == 'current_target_level':
                 text = ui.lower_font.render('target_level' + ': ' + str(val), False, BLACK)
             else:
                 text = ui.lower_font.render(str(key) + ': ' + str(val), False, BLACK)
-            screen.blit(text, (230, 110 + 20 * count))
+            screen.blit(text, (10, 200 + 20 * count))
 
     def calculate_offline_money(self):
-        initial_money = self.money
-        delta = self.new_login - self.last_login
-        damage = delta * self.afk_power
+        offline_time = self.new_login - self.last_login
         while True:
-            if damage > calculate_hp(self.current_target_level):
-                self.current_target_level += 1
-                self.power_up()
-                damage -= calculate_hp(self.current_target_level)
-            else:
-                if self.last_player:
-                    money_earned = self.money - initial_money
-                    offline_time = delta
-                    ui.show_offline_income(money_earned, offline_time)
-                break
+            if self.last_player:
+                money_earned = int(offline_time / 60 * afk_money)
+                self.money += money_earned
+                ui.show_offline_income(money_earned, offline_time)
+            break
 
 
 if __name__ == '__main__':

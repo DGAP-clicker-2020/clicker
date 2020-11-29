@@ -26,7 +26,7 @@ def main():
 
     current_target = target.Target(hp=INITIAL_TARGET_HP + current_player.current_target_level * TARGET_HP_MULTIPLIER)
 
-    back_pict = choice(list(back_pictures.values()))  # выбирает начальный фон
+    back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
 
     finished = False
 
@@ -65,7 +65,7 @@ def main():
 
         if current_target.died:
             current_player.power_up()
-            current_target = target.Target(hp=target.calculate_hp(current_player.current_target_level))
+            current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
         pg.display.update()
 
     current_player.last_player = True

@@ -24,8 +24,8 @@ def show_offline_income(money_earned, offline_time):
         screen,
         10,
         10,
-        text='Cancel',
-        color=(200, 200, 200),
+        text='OK',
+        color=(51, 153, 255),
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
@@ -35,7 +35,7 @@ def show_offline_income(money_earned, offline_time):
     clock = pygame.time.Clock()
     text1 = large_font.render('You were offline', False, RED)
     text2 = large_font.render(str(format(offline_time, '.0f')) + ' seconds and', False, RED)
-    text3 = large_font.render('earned ' + str(format(money_earned, '.1e')), False, RED)
+    text3 = large_font.render('earned ' + str(format(money_earned, '.0f')), False, RED)
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
@@ -68,7 +68,7 @@ def change_player():
         10,
         150,
         text='Cancel',
-        color=(200, 200, 200),
+        color=(51, 153, 255),
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,

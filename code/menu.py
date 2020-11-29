@@ -5,6 +5,7 @@ from ui import *
 
 players = player.read_players_from_file()
 current_player = player.define_current_player(players)
+back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
 
 
 def create_menu_btn():
@@ -34,7 +35,7 @@ def menu_window():
         10,
         150,
         text='return',
-        color=(200, 200, 200),
+        color=(51, 153, 255),
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
@@ -49,6 +50,7 @@ def menu_window():
         new_data = True
         clock.tick(FPS)
         screen.fill(BLACK)
+        draw_back_picture(back_pict, screen)
         screen.blit(hello_text, ((window_width - hello_text.get_width()) / 2, window_width / 30))
         return_btn.draw()
         for event in pygame.event.get():
