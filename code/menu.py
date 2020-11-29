@@ -33,7 +33,7 @@ def menu_window():
     return_btn = Button(
         screen,
         10,
-        150,
+        170,
         text='return',
         color=(51, 153, 255),
         hover_color=(235, 146, 37),

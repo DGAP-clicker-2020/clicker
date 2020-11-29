@@ -39,6 +39,7 @@ def show_offline_income(money_earned, offline_time):
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
+        draw_back_picture(back_pictures['mipt_logo.jpg'], screen)
         screen.blit(text1, (5, 30))
         screen.blit(text2, (5, 60))
         screen.blit(text3, (5, 90))
@@ -82,6 +83,7 @@ def change_player():
         new_data = True
         clock.tick(FPS)
         screen.fill(BLACK)
+        draw_back_picture(back_pictures['mipt_logo.jpg'], screen)
         screen.blit(hello_text, (10, 10))
         cancel_btn.draw()
         for event in pygame.event.get():
