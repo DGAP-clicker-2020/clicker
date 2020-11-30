@@ -1,4 +1,5 @@
 import ui
+from settings import *
 
 
 def create_menu_btn():
@@ -37,14 +38,13 @@ def menu_window(current_player):
 
     hello_text = ui.pygame.font.Font('terminator.ttf', 45).render("MENU", True, ui.ORANGE)
     clock = ui.pygame.time.Clock()
+    back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
     finished = False
-    '''initial_money = player.get_init_money(current_player)'''
-    # fixme сделать, чтобы при входе в меню, обновлялись деньги в меню
 
     while not finished:
         clock.tick(ui.FPS)
         ui.screen.fill(ui.BLACK)
-        ui.draw_back_picture(ui.back_pict, ui.screen)
+        ui.draw_back_picture(back_pict, ui.screen)
         ui.screen.blit(hello_text, ((ui.window_width - hello_text.get_width()) / 2, ui.window_width / 30))
         return_btn.draw()
         for event in ui.pygame.event.get():

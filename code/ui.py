@@ -16,7 +16,7 @@ pygame.display.update()
 def draw_back_picture(name, surface):
     """рисует задний фон
     type name(названия файла): string"""
-    surface.blit(pygame.image.load(back_pictures['mipt_logo.jpg']), (0, 0, window_width, window_height))
+    surface.blit(pygame.image.load(name), (0, 0, window_width, window_height))
 
 
 def show_offline_income(money_earned, offline_time):

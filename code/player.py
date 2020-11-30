@@ -94,7 +94,7 @@ class Player:
                  current_target=0,
                  current_target_level=1,
                  afk_power=0.0,
-                 money=0.0,
+                 money=0,
                  last_login=int(time.time()),
                  new_login=int(time.time()),
                  player_back_pict='kpm_1.jpg'
@@ -147,17 +147,18 @@ class Player:
 
     def calculate_offline_money(self):
         initial_money = self.money
-        delta = self.new_login - self.last_login
-        damage = delta * self.afk_power
+        offline_time = self.new_login - self.last_login
+        damage = offline_time * self.afk_power
         while True:
             if damage > calculate_hp(self.current_target):
+                self.money += int(math.exp(0.1 * self.current_target_level))  # fixme сделать нормальное начисление денег
+                if self.current_target_level >= 5:
+                    self.current_target_level = 0
                 self.current_target_level += 1
-                self.power_up()
                 damage -= calculate_hp(self.current_target)
             else:
                 if self.last_player and self.afk_power != 0:
                     money_earned = self.money - initial_money
-                    offline_time = delta
                     ui.show_offline_income(money_earned, offline_time)
                 break
 
