@@ -5,6 +5,7 @@ from random import randint
 
 import ui
 from settings import *
+from target import calculate_hp
 
 
 def handle_new_data(new_name, players, current_player):
@@ -118,7 +119,7 @@ class Player:
         self.money = money
         self.last_login = last_login
         self.new_login = new_login
-        self.player_back_pict  = player_back_pict
+        self.player_back_pict = player_back_pict
         self.calculate_offline_money()
 
     def power_up(self):
@@ -133,9 +134,6 @@ class Player:
         self.current_target += 1
         self.current_target_level += 1
 
-    def get_init_money(self):
-        return self.money
-
     def draw_stats(self, screen):
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
@@ -148,13 +146,20 @@ class Player:
             screen.blit(text, (10, 200 + 20 * count))
 
     def calculate_offline_money(self):
-        offline_time = self.new_login - self.last_login
+        initial_money = self.money
+        delta = self.new_login - self.last_login
+        damage = delta * self.afk_power
         while True:
-            if self.last_player:
-                money_earned = int(offline_time / 60 * afk_money)
-                self.money += money_earned
-                ui.show_offline_income(money_earned, offline_time)
-            break
+            if damage > calculate_hp(self.current_target):
+                self.current_target_level += 1
+                self.power_up()
+                damage -= calculate_hp(self.current_target)
+            else:
+                if self.last_player and self.afk_power != 0:
+                    money_earned = self.money - initial_money
+                    offline_time = delta
+                    ui.show_offline_income(money_earned, offline_time)
+                break
 
 
 if __name__ == '__main__':

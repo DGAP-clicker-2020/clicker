@@ -1,11 +1,4 @@
-from button import Button
-import player
-from settings import *
-from ui import *
-
-players = player.read_players_from_file()
-current_player = player.define_current_player(players)
-back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
+import ui
 
 
 def create_menu_btn():
@@ -13,8 +6,8 @@ def create_menu_btn():
     Функция создаёт кнопочку
     :return: экземпляр класс Button
     """
-    return Button(
-        screen,
+    return ui.Button(
+        ui.screen,
         10,
         170,
         text='Menu',
@@ -26,12 +19,12 @@ def create_menu_btn():
     )
 
 
-def menu_window():
+def menu_window(current_player):
     """
     Функция для вывода меню
     """
-    return_btn = Button(
-        screen,
+    return_btn = ui.Button(
+        ui.screen,
         10,
         170,
         text='return',
@@ -42,28 +35,26 @@ def menu_window():
         border_width=2
     )
 
-    hello_text = pygame.font.Font('terminator.ttf', 45).render("MENU", True, ORANGE)
-    clock = pygame.time.Clock()
+    hello_text = ui.pygame.font.Font('terminator.ttf', 45).render("MENU", True, ui.ORANGE)
+    clock = ui.pygame.time.Clock()
     finished = False
     '''initial_money = player.get_init_money(current_player)'''
     # fixme сделать, чтобы при входе в меню, обновлялись деньги в меню
 
     while not finished:
-        new_data = True
-        clock.tick(FPS)
-        screen.fill(BLACK)
-        draw_back_picture(back_pict, screen)
-        screen.blit(hello_text, ((window_width - hello_text.get_width()) / 2, window_width / 30))
+        clock.tick(ui.FPS)
+        ui.screen.fill(ui.BLACK)
+        ui.draw_back_picture(ui.back_pict, ui.screen)
+        ui.screen.blit(hello_text, ((ui.window_width - hello_text.get_width()) / 2, ui.window_width / 30))
         return_btn.draw()
-        for event in pygame.event.get():
+        for event in ui.pygame.event.get():
             return_btn.handle_event(event)
             if return_btn.clicked:
                 finished = True
-                new_data = False
-            if event.type == pygame.QUIT:
+            if event.type == ui.pygame.QUIT:
                 finished = True
 
-        current_money_text = large_font.render('money: ' + str(current_player.money),
-                                               True, BLACK)
-        screen.blit(current_money_text, (10, 70))
-        pygame.display.update()
+        current_money_text = ui.large_font.render('money: ' + str(current_player.money),
+                                                  True, ui.BLACK)
+        ui.screen.blit(current_money_text, (10, 70))
+        ui.pygame.display.update()

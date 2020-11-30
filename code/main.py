@@ -21,7 +21,7 @@ def main():
     players = player.read_players_from_file()
     current_player = player.define_current_player(players)
 
-    current_target = target.Target(hp=INITIAL_TARGET_HP + current_player.current_target_level * TARGET_HP_MULTIPLIER)
+    current_target = target.Target(hp=INITIAL_TARGET_HP + current_player.current_target * TARGET_HP_MULTIPLIER)
 
     back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
 
@@ -47,10 +47,10 @@ def main():
                 change_name_btn.clicked = False
                 if new_data:
                     players, current_player = player.handle_new_data(new_name, players, current_player)
-                    current_target = target.Target(hp=target.calculate_hp(current_player.current_target_level))
+                    current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
 
             if menu_open_btn.clicked:
-                menu.menu_window()
+                menu.menu_window(current_player)
 
             if event.type == pg.QUIT:
                 finished = True
