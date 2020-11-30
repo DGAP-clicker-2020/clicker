@@ -28,7 +28,7 @@ def handle_new_data(new_name, players, current_player):
         if new_name == '':
             current_player = Player
         else:
-            current_player = Player(name=new_name, last_player=True)
+            current_player = Player(name=new_name)
         players.append(current_player)
     return players, current_player
 
@@ -134,7 +134,7 @@ class Player:
                 text = ui.lower_font.render('target_level' + ': ' + str(val), False, BLACK)
             else:
                 text = ui.lower_font.render(str(key) + ': ' + str(val), False, BLACK)
-            screen.blit(text, (230, 110 + 20 * i))
+            screen.blit(text, (230, 110 + 20 * count))
 
     def calculate_offline_money(self):
         initial_money = self.money
@@ -146,7 +146,7 @@ class Player:
                 self.power_up()
                 damage -= calculate_hp(self.current_target_level)
             else:
-                if self.last_player:
+                if self.last_player and self.afk_power != 0:
                     money_earned = self.money - initial_money
                     offline_time = delta
                     ui.show_offline_income(money_earned, offline_time)
