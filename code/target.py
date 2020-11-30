@@ -1,6 +1,6 @@
 from pygame.draw import *
 from random import choice
-
+from pygame import gfxdraw
 from settings import *
 from ui import large_font
 
@@ -67,7 +67,8 @@ class Target:
         Рисует цель на экране
         :param surface: экран
         """
-        circle(surface, self.color, (self.x, self.y), int(self.r))
+        gfxdraw.aacircle(surface, int(self.x), int(self.y), int(self.r), self.color)  # сглаженный круг
+        gfxdraw.filled_circle(surface, int(self.x), int(self.y), int(self.r), self.color)
         self.draw_hp_bar(surface)
 
     def draw_hp_bar(self, surface):
@@ -84,10 +85,15 @@ class Target:
                        255 * (green_factor if green_factor > 0 else 0), 0),
              (X_INDENT + 3, Y_INDENT + 3, healthbar_width * green_factor - 3, healthbar_height - 6))
 
-        hp_text = large_font.render(str(to_fixed(self.hp, 0)) + '/' + str(self.max_hp), 0, BLACK)
-        x, y = hp_text.get_width(), hp_text.get_height()
-        surface.blit(hp_text, (X_INDENT + (healthbar_width - x) / 2, Y_INDENT + (healthbar_height - y) / 2))
-        # fixme сделать, чтобы напись не дёргалась
+        hp_text_1 = large_font.render(str(format(self.hp, '.0f')), True, BLACK)
+        hp_text_2 = large_font.render('/', True, BLACK)
+        hp_text_3 = large_font.render(str(format(self.max_hp, '.0f')), True, BLACK)
+        surface.blit(hp_text_1, (X_INDENT + (healthbar_width - hp_text_2.get_width()) / 2 - hp_text_1.get_width(),
+                                 Y_INDENT + (healthbar_height - hp_text_1.get_height()) / 2))
+        surface.blit(hp_text_2, (X_INDENT + (healthbar_width - hp_text_2.get_width()) / 2,
+                                 Y_INDENT + (healthbar_height - hp_text_2.get_height()) / 2))
+        surface.blit(hp_text_3, (X_INDENT + (healthbar_width + hp_text_2.get_width()) / 2,
+                                 Y_INDENT + (healthbar_height - hp_text_3.get_height()) / 2))
 
 
 if __name__ == '__main__':

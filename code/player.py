@@ -5,7 +5,6 @@ from random import randint
 
 import ui
 from settings import *
-from target import calculate_hp
 
 
 def handle_new_data(new_name, players, current_player):
@@ -28,7 +27,7 @@ def handle_new_data(new_name, players, current_player):
         if new_name == '':
             current_player = Player
         else:
-            current_player = Player(name=new_name)
+            current_player = Player(name=new_name, last_player=True)
         players.append(current_player)
     return players, current_player
 
@@ -46,8 +45,10 @@ def read_players_from_file():
         file.close()
         for val in new_dict.values():
             players.append(Player(name=val['name'], id_num=val['id_num'], hand_power=val['hand_power'],
-                                  last_player=val['last_player'], current_target_level=val['current_target_level'],
-                                  afk_power=val['afk_power'], money=val['money'], last_login=val['last_login']))
+                                  last_player=val['last_player'], current_target=val['current_target'],
+                                  current_target_level=val['current_target_level'],
+                                  afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
+                                  player_back_pict=val['player_back_pict']))
     except (json.JSONDecodeError, FileNotFoundError):
         pass
     if not players:
@@ -89,11 +90,13 @@ class Player:
                  id_num=randint(1, 1000),
                  hand_power=1,
                  last_player=False,
-                 current_target_level=0,
+                 current_target=0,
+                 current_target_level=1,
                  afk_power=0.0,
                  money=0.0,
-                 last_login=time.time(),
-                 new_login=time.time(),
+                 last_login=int(time.time()),
+                 new_login=int(time.time()),
+                 player_back_pict='kpm_1.jpg'
                  ):
         """
         Сборщик экземпляра класса Player
@@ -110,47 +113,48 @@ class Player:
         self.hand_power = hand_power
         self.afk_power = afk_power
         self.last_player = last_player
+        self.current_target = current_target
         self.current_target_level = current_target_level
         self.money = money
         self.last_login = last_login
         self.new_login = new_login
+        self.player_back_pict  = player_back_pict
         self.calculate_offline_money()
 
     def power_up(self):
         """
         Улучшение игрока после уничтожения цели
         """
-        self.money += math.exp(0.1 * self.current_target_level)
+        self.money += int(math.exp(0.1 * self.current_target_level))
         self.hand_power += HAND_POWER_BONUS
         self.afk_power += AFK_POWER_BONUS
+        if self.current_target_level >= 5:
+            self.current_target_level = 0
+        self.current_target += 1
         self.current_target_level += 1
+
+    def get_init_money(self):
+        return self.money
 
     def draw_stats(self, screen):
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
             if key == 'money':
-                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.2e')), False, BLACK)
+                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.0f')), True, BLACK)
             elif key == 'current_target_level':
-                text = ui.lower_font.render('target_level' + ': ' + str(val), False, BLACK)
+                text = ui.lower_font.render('target_level' + ': ' + str(val), True, BLACK)
             else:
-                text = ui.lower_font.render(str(key) + ': ' + str(val), False, BLACK)
-            screen.blit(text, (230, 110 + 20 * count))
+                text = ui.lower_font.render(str(key) + ': ' + str(val), True, BLACK)
+            screen.blit(text, (10, 200 + 20 * count))
 
     def calculate_offline_money(self):
-        initial_money = self.money
-        delta = self.new_login - self.last_login
-        damage = delta * self.afk_power
+        offline_time = self.new_login - self.last_login
         while True:
-            if damage > calculate_hp(self.current_target_level):
-                self.current_target_level += 1
-                self.power_up()
-                damage -= calculate_hp(self.current_target_level)
-            else:
-                if self.last_player and self.afk_power != 0:
-                    money_earned = self.money - initial_money
-                    offline_time = delta
-                    ui.show_offline_income(money_earned, offline_time)
-                break
+            if self.last_player:
+                money_earned = int(offline_time / 60 * afk_money)
+                self.money += money_earned
+                ui.show_offline_income(money_earned, offline_time)
+            break
 
 
 if __name__ == '__main__':
