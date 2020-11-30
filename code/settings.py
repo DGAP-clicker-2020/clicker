@@ -34,7 +34,7 @@ AFK_POWER_BONUS = 0.5
 back_pictures = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg']  # массив с названием картинок заднего фона
 
 for i, pic in enumerate(back_pictures):
-    back_pictures[i] = os.path.join('back_pictures', pic)  # нормальный путь к файлам картинок
+    back_pictures[i] = os.path.join('..', 'back_pictures', pic)  # нормальный путь к файлам картинок
 
 if __name__ == '__main__':
     print('This module is not for direct run!')

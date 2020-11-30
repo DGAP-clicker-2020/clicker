@@ -52,13 +52,13 @@ class Button:
         text="",
         width=0,
         height=0,
-        color: Tuple[int]=None,
+        color: Tuple[int] = None,
         border_width=0,
         hover_color=None,
         clicked_color=None,
         border_radius=0,
         border_color=None,
-        font: pygame.font.Font=None,
+        font: pygame.font.Font = None,
         font_color=None
     ):
 
