@@ -33,15 +33,12 @@ def show_offline_income(money_earned, offline_time):
     )
     finished = False
     clock = pygame.time.Clock()
-    date = {'day': offline_time // 86400, 'hour': (offline_time % 86400) // 3600,
-            'minute': ((offline_time % 86400) % 3600) // 60, 'second': ((offline_time % 86400) % 3600) % 60}
+    date = {'d': offline_time // 86400, 'h': (offline_time % 86400) // 3600,
+            'min': ((offline_time % 86400) % 3600) // 60, 'sec': ((offline_time % 86400) % 3600) % 60}
     date_str = ''
     for k, v in date.items():
         if v != 0:
-            if v == 1:
-                date_str += f'{v} {k} '
-            else:
-                date_str += f'{v} {k}s '
+            date_str += f'{v}{k} '
     text1 = large_font.render('You were offline', True, RED)
     text2 = large_font.render(date_str, True, RED)
     text3 = large_font.render('and earned ' + str(format(money_earned, '.0f')), True, RED)
