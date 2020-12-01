@@ -83,7 +83,7 @@ class Target:
 
         rect(surface, (255 * (red_factor if red_factor < 1 else 1),
                        255 * (green_factor if green_factor > 0 else 0), 0),
-             (X_INDENT + 3, Y_INDENT + 3, healthbar_width * green_factor - 3, healthbar_height - 6))
+             (X_INDENT + 3, Y_INDENT + 3, (healthbar_width - 3) * green_factor, healthbar_height - 6))
 
         hp_text_1 = large_font.render(str(format(self.hp, '.0f')), True, BLACK)
         hp_text_2 = large_font.render('/', True, BLACK)
