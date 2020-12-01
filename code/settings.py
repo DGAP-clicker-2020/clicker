@@ -28,10 +28,8 @@ healthbar_height = 100
 INITIAL_TARGET_HP = 10
 TARGET_HP_MULTIPLIER = 6
 
-HAND_POWER_BONUS = 1
-AFK_POWER_BONUS = 0.5
-
-afk_money = 10   # денег в минуту, пока afk
+HAND_POWER_BONUS = 0.2
+AFK_POWER_BONUS = 0.1
 
 back_pict = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg', 'mipt_logo.jpg']  # массив с названием картинок заднего фона
 

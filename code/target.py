@@ -10,7 +10,7 @@ def to_fixed(num_obj, digits=0):
 
 
 def calculate_hp(kills):
-    return INITIAL_TARGET_HP + kills * TARGET_HP_MULTIPLIER
+    return INITIAL_TARGET_HP + kills ** 1.5
 
 
 class Target:

@@ -137,7 +137,9 @@ class Player:
     def draw_stats(self, screen):
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
-            if key == 'money':
+            if key == 'hand_power' or key == 'afk_power':
+                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.1f')), True, BLACK)
+            elif key == 'money':
                 text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.0f')), True, BLACK)
             elif key == 'current_target_level':
                 text = ui.lower_font.render('target_level' + ': ' + str(val), True, BLACK)
