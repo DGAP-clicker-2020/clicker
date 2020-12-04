@@ -2,11 +2,22 @@
 
 import time
 import pygame as pg
+
 import player
 import target
 import ui
 import menu
+import shop
 from settings import *
+
+
+def draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn):
+    ui.draw_back_picture(back_pictures[current_player.player_back_pict], ui.screen)
+    current_target.draw(ui.screen)
+    change_name_btn.draw()
+    menu_open_btn.draw()
+    shop_open_btn.draw()
+    current_player.draw_stats()
 
 
 def main():
@@ -17,6 +28,7 @@ def main():
 
     change_name_btn = ui.create_change_name_btn()
     menu_open_btn = menu.create_menu_btn()
+    shop_open_btn = shop.create_shop_btn()
 
     players = player.read_players_from_file()
     current_player = player.define_current_player(players)
@@ -27,20 +39,16 @@ def main():
 
     while not finished:
         clock.tick(FPS)
-        ui.screen.fill(BLACK)
-        ui.draw_back_picture(back_pictures[current_player.player_back_pict], ui.screen)
-        current_target.draw(ui.screen)
-        change_name_btn.draw()
-        menu_open_btn.draw()
-        current_player.draw_stats(ui.screen)
+
+        draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn)
 
         for event in pg.event.get():
 
             change_name_btn.handle_event(event)
             menu_open_btn.handle_event(event)
+            shop_open_btn.handle_event(event)
 
             if change_name_btn.clicked:
-                player.write_players_to_file(players)
                 new_data, new_name = ui.change_player()
                 change_name_btn.clicked = False
                 if new_data:
@@ -49,6 +57,9 @@ def main():
 
             if menu_open_btn.clicked:
                 menu.menu_window(current_player)
+
+            if shop_open_btn.clicked:
+                shop.shop_window(current_player)
 
             if event.type == pg.QUIT:
                 finished = True

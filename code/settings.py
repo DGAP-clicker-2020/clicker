@@ -2,6 +2,8 @@ import os
 
 FPS = 60
 
+DEBUG_FLAG = False
+
 window_width = 500
 window_height = 750
 
@@ -31,9 +33,9 @@ TARGET_HP_MULTIPLIER = 6
 HAND_POWER_BONUS = 0.2
 AFK_POWER_BONUS = 0.1
 
-back_pict = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg', 'mipt_logo.jpg']  # массив с названием картинок заднего фона
+back_pictures = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg', 'mipt_logo.jpg']  # массив с названием картинок заднего фона
 
-back_pictures = {pic: os.path.join('..', 'back_pictures', pic) for pic in back_pict}
+back_pictures = {pic: os.path.join('..', 'back_pictures', pic) for pic in back_pictures}
 
 if __name__ == '__main__':
     print('This module is not for direct run!')
