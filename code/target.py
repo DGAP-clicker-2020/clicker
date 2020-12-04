@@ -10,6 +10,11 @@ def to_fixed(num_obj, digits=0):
 
 
 def calculate_hp(kills):
+    """
+    Функция рассчитывает зворовье цели
+    :param kills: колличество цбитых целей
+    :return: здоровье следующей цели
+    """
     return INITIAL_TARGET_HP + kills ** 1.5
 
 
@@ -50,7 +55,6 @@ class Target:
         Обрабатывает нанесение урона цели
         :param power: сила урона
         """
-
         self.hp -= power
         self.r = RADIUS + DR * self.hp / self.max_hp
         self.check_died()

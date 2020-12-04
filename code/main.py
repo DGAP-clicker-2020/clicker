@@ -32,7 +32,7 @@ def main():
         current_target.draw(ui.screen)
         change_name_btn.draw()
         menu_open_btn.draw()
-        current_player.draw_stats(ui.screen)
+        current_player.draw_stats()
 
         for event in pg.event.get():
 

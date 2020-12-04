@@ -1,6 +1,7 @@
 import json
 import math
 import time
+import zlib
 from random import randint
 
 import ui
@@ -41,9 +42,16 @@ def read_players_from_file():
     """
     players = []
     try:
-        file = open('players.json', 'r')
-        new_dict = json.load(file)
-        file.close()
+        if DEBUG_FLAG:
+            file = open('players.json', 'r')
+            new_dict = json.load(file)
+            file.close()
+        else:
+            with open('players', 'rb') as f:
+                data = f.read()
+            data = zlib.decompress(data)
+            data = data.decode('utf-8')
+            new_dict = json.loads(data)
         for val in new_dict.values():
             players.append(Player(name=val['name'], id_num=val['id_num'], hand_power=val['hand_power'],
                                   last_player=val['last_player'], current_target=val['current_target'],
@@ -74,14 +82,23 @@ def define_current_player(players):
 
 def write_players_to_file(players):
     """
-    Функция записывает информацию об игроках в json-файл
+    Функция записывает информацию об игроках в файл
     :param players: список игроков
     """
-    with open('players.json', 'w') as file:
-        dic = {}
-        for count, pl in enumerate(players):
-            dic[count] = pl.__dict__
-        json.dump(dic, file)
+    dic = {}
+    for count, pl in enumerate(players):
+        dic[count] = pl.__dict__
+    if not DEBUG_FLAG:
+        dic = json.dumps(dic, indent='    ')
+        dic = zlib.compress(dic.encode('utf-8'))
+        with open('players', 'wb') as file:
+            file.write(dic)
+    else:
+        with open('players.json', 'w') as file:
+            dic = {}
+            for count, pl in enumerate(players):
+                dic[count] = pl.__dict__
+            json.dump(dic, file)
 
 
 class Player:
@@ -101,12 +118,16 @@ class Player:
                  ):
         """
         Сборщик экземпляра класса Player
+        :param current_target: колличество убитых целей
+        :param last_login: последнее время захода в игру, обновляется после выхода из игры
+        :param new_login: время, обновляющееся после захода игру
+        :param player_back_pict: задний фон игрока
         :param name: имя
         :param id_num: идентификационный номер
         :param hand_power: сила клика
-        :param last_player: Флаг-статус последнего игрока
-        :param current_target_level: Колличество убитых целей
-        :param afk_power: Урон каждую секунду
+        :param last_player: флаг-статус последнего игрока
+        :param current_target: текущий уровень цели
+        :param afk_power: урон каждую секунду
         :param money: колличество денег
         """
         self.name = name
@@ -134,7 +155,10 @@ class Player:
         self.current_target += 1
         self.current_target_level += 1
 
-    def draw_stats(self, screen):
+    def draw_stats(self):
+        """
+        Метод выводит статистику игрока на экран
+        """
         for count, key_n_val in enumerate(self.__dict__.items()):
             key, val = key_n_val
             if key == 'hand_power' or key == 'afk_power':
@@ -145,20 +169,24 @@ class Player:
                 text = ui.lower_font.render('target_level' + ': ' + str(val), True, BLACK)
             else:
                 text = ui.lower_font.render(str(key) + ': ' + str(val), True, BLACK)
-            screen.blit(text, (10, 200 + 20 * count))
+            ui.screen.blit(text, (10, 200 + 20 * count))
 
     def calculate_offline_money(self):
+        """
+        Метод начисляет игроку деньги за время, проведённоен вне игры
+        """
         initial_money = self.money
         offline_time = self.new_login - self.last_login
         damage = offline_time * self.afk_power
         while True:
-            if damage > calculate_hp(self.current_target):
+            hp = calculate_hp(self.current_target)
+            if damage > hp:
                 self.money += int(math.exp(0.1 * self.current_target_level))  # TODO сделать нормальное начисление денег
                 if self.current_target_level >= 5:
                     self.current_target_level = 0
                 self.current_target_level += 1
                 self.current_target += 1
-                damage -= calculate_hp(self.current_target)
+                damage -= hp
             else:
                 if self.last_player and self.afk_power != 0:
                     money_earned = self.money - initial_money

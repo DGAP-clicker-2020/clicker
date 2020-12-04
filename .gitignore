@@ -7,3 +7,4 @@
 *.xml
 .idea/.gitignore
 *.json
+/code/players
