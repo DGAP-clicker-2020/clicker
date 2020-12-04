@@ -58,8 +58,19 @@ def read_players_from_file():
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
                                   player_back_pict=val['player_back_pict']))
-    except (json.JSONDecodeError, FileNotFoundError):
+    except (json.JSONDecodeError, FileNotFoundError, zlib.error):
         pass
+
+    return players
+
+
+def read_players():
+    """
+    Функция считывает игроков из базы данных. Если базы данных нет, или она испорчена, создает нового.
+    :rtype: list
+    :return: список игроков
+    """
+    players = read_players_from_file()
     if not players:
         new_data, new_name = ui.change_player()
         if not new_data:
@@ -99,9 +110,8 @@ def write_players_to_file(players):
             for count, pl in enumerate(players):
                 dic[count] = pl.__dict__
             json.dump(dic, file)
-
-
 class Player:
+
 
     def __init__(self,
                  name='Sample Name',
@@ -170,7 +180,6 @@ class Player:
             else:
                 text = ui.lower_font.render(str(key) + ': ' + str(val), True, BLACK)
             ui.screen.blit(text, (10, 200 + 20 * count))
-
     def calculate_offline_money(self):
         """
         Метод начисляет игроку деньги за время, проведённоен вне игры
@@ -192,6 +201,8 @@ class Player:
                     money_earned = self.money - initial_money
                     ui.show_offline_income(money_earned, offline_time)
                 break
+
+
 
 
 if __name__ == '__main__':
