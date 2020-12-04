@@ -2,16 +2,16 @@ import ui
 from settings import *
 
 
-def create_menu_btn():
+def create_shop_btn():
     """
     Функция создаёт кнопочку
     :return: экземпляр класс Button
     """
     return ui.Button(
         ui.screen,
-        10,
+        350,
         170,
-        text='Menu',
+        text='shop',
         color=(51, 153, 255),
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
@@ -20,13 +20,13 @@ def create_menu_btn():
     )
 
 
-def menu_window(current_player):
+def shop_window(current_player):
     """
     Функция для вывода меню
     """
     return_btn = ui.Button(
         ui.screen,
-        10,
+        350,
         170,
         text='return',
         color=(51, 153, 255),
@@ -36,7 +36,7 @@ def menu_window(current_player):
         border_width=2
     )
 
-    hello_text = ui.pygame.font.Font('terminator.ttf', 45).render("MENU", True, ORANGE)
+    hello_text = ui.pygame.font.Font('terminator.ttf', 45).render("SHOP", True, ORANGE)
     clock = ui.pygame.time.Clock()
     back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
     finished = False
