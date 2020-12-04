@@ -153,10 +153,11 @@ class Player:
         damage = offline_time * self.afk_power
         while True:
             if damage > calculate_hp(self.current_target):
-                self.money += int(math.exp(0.1 * self.current_target_level))  # fixme сделать нормальное начисление денег
+                self.money += int(math.exp(0.1 * self.current_target_level))  # TODO сделать нормальное начисление денег
                 if self.current_target_level >= 5:
                     self.current_target_level = 0
                 self.current_target_level += 1
+                self.current_target += 1
                 damage -= calculate_hp(self.current_target)
             else:
                 if self.last_player and self.afk_power != 0:

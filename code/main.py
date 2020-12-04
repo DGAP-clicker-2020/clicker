@@ -28,7 +28,7 @@ def main():
     while not finished:
         clock.tick(FPS)
         ui.screen.fill(BLACK)
-        ui.draw_back_picture(back_pictures[current_player.player_back_pict],ui.screen)
+        ui.draw_back_picture(back_pictures[current_player.player_back_pict], ui.screen)
         current_target.draw(ui.screen)
         change_name_btn.draw()
         menu_open_btn.draw()
