@@ -17,7 +17,6 @@ def draw_objects(current_player, current_target, change_name_btn, menu_open_btn,
     change_name_btn.draw()
     menu_open_btn.draw()
     shop_open_btn.draw()
-    current_player.draw_stats()
 
 
 def main():
@@ -42,6 +41,13 @@ def main():
 
         draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn)
 
+        current_money_text = ui.pygame.font.Font('terminator.ttf', 22).render('money: ' + str(current_player.money),
+                                                                              True, BLACK)
+        dollar_text = ui.pygame.font.Font('terminator.ttf', 22).render('$', True, BLACK)
+
+        ui.screen.blit(current_money_text, (240, 128))
+        ui.screen.blit(dollar_text, (470, 128))
+
         for event in pg.event.get():
 
             change_name_btn.handle_event(event)
@@ -56,9 +62,11 @@ def main():
                     current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
 
             if menu_open_btn.clicked:
+                menu_open_btn.clicked = False
                 menu.menu_window(current_player)
 
             if shop_open_btn.clicked:
+                shop_open_btn.clicked = False
                 shop.shop_window(current_player)
 
             if event.type == pg.QUIT:
@@ -73,6 +81,7 @@ def main():
         if current_target.died:
             current_player.power_up()
             current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
+
         pg.display.update()
 
     current_player.last_player = True
@@ -81,5 +90,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-    pg.quit()
+    try:
+        main()
+    finally:
+        pg.quit()

@@ -99,6 +99,7 @@ def change_player():
                 new_data = False
             if event.type == pygame.QUIT:
                 finished = True
+                new_data = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     finished = True
