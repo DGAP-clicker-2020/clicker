@@ -30,7 +30,7 @@ def main():
     menu_open_btn = menu.create_menu_btn()
     shop_open_btn = shop.create_shop_btn()
 
-    players = player.read_players()
+    players = player.read_players_from_file()
     current_player = player.define_current_player(players)
 
     current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
