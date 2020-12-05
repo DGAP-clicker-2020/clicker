@@ -54,6 +54,7 @@ def menu_window(current_player):
             if event.type == ui.pygame.QUIT:
                 finished = True
 
-        current_player.draw_stats()
-
+        current_money_text = ui.large_font.render('money: ' + str(current_player.money),
+                                                  True, ui.BLACK)
+        ui.screen.blit(current_money_text, (10, 70))
         ui.pygame.display.update()
