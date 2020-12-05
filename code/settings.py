@@ -33,6 +33,9 @@ TARGET_HP_MULTIPLIER = 6
 HAND_POWER_BONUS = 0.2
 AFK_POWER_BONUS = 0.1
 
+HAND_POWER_COST = 20
+AFK_POWER_COST = 30
+
 back_pictures = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg', 'mipt_logo.jpg']  # массив с названием картинок заднего фона
 
 back_pictures = {pic: os.path.join('..', 'back_pictures', pic) for pic in back_pictures}

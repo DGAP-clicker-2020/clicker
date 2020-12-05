@@ -110,7 +110,7 @@ class Player:
                  last_player=False,
                  current_target=0,
                  current_target_level=1,
-                 afk_power=0.0,
+                 afk_power=0,
                  money=0,
                  last_login=int(time.time()),
                  new_login=int(time.time()),
@@ -147,9 +147,7 @@ class Player:
         """
         Улучшение игрока после уничтожения цели
         """
-        self.money += int(math.exp(0.1 * self.current_target_level))
-        self.hand_power += HAND_POWER_BONUS
-        self.afk_power += AFK_POWER_BONUS
+        self.money += int(0.5 * math.exp(self.current_target_level))
         if self.current_target_level >= 5:
             self.current_target_level = 0
         self.current_target += 1
@@ -159,17 +157,12 @@ class Player:
         """
         Метод выводит статистику игрока на экран
         """
-        for count, key_n_val in enumerate(self.__dict__.items()):
-            key, val = key_n_val
-            if key == 'hand_power' or key == 'afk_power':
-                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.1f')), True, BLACK)
-            elif key == 'money':
-                text = ui.lower_font.render(str(key) + ': ' + str(format(val, '.0f')), True, BLACK)
-            elif key == 'current_target_level':
-                text = ui.lower_font.render('target_level' + ': ' + str(val), True, BLACK)
-            else:
-                text = ui.lower_font.render(str(key) + ': ' + str(val), True, BLACK)
-            ui.screen.blit(text, (10, 200 + 20 * count))
+        dic = self.__dict__
+        count = 0
+        for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money']:
+            text = ui.lower_font.render(str(key) + ': ' + str(dic[key]), True, BLACK)
+            ui.screen.blit(text, (10, 200 + count * text.get_height()))
+            count += 1
 
     def calculate_offline_money(self):
         """
@@ -181,7 +174,7 @@ class Player:
         while True:
             hp = calculate_hp(self.current_target)
             if damage > hp:
-                self.money += int(math.exp(0.1 * self.current_target_level))  # TODO сделать нормальное начисление денег
+                self.money += int(0.5 * math.exp(self.current_target_level))
                 if self.current_target_level >= 5:
                     self.current_target_level = 0
                 self.current_target_level += 1
