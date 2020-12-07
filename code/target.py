@@ -1,9 +1,10 @@
 from pygame.draw import *
 from random import choice
 from pygame import gfxdraw
+
 from settings import *
 from ui import large_font
-from music import *
+import music
 
 
 def to_fixed(num_obj, digits=0):
@@ -21,8 +22,8 @@ def calculate_hp(kills):
 
 class Target:
     def __init__(self,
-                 x=window_width // 2,
-                 y=window_height // 2 + 20,
+                 x=WINDOW_WIDTH // 2,
+                 y=WINDOW_HEIGHT // 2 + 20,
                  r=RADIUS + DR,
                  hp=10, ):
         """
@@ -38,9 +39,8 @@ class Target:
         self.color = choice(COLORS)  # цвет
         self.max_hp = self.hp = hp  # максимальное начальное здоровье
         self.died = False  # флаг смерти
-        self.kill_snd = kill_snd
-        self.hit_snd = hit_snd
-
+        self.kill_snd = music.kill_snd
+        self.hit_snd = music.hit_snd
 
     def check_click(self, event):
         """
@@ -87,24 +87,24 @@ class Target:
         Рисует хп бар на экране
         :param surface: экран
         """
-        rect(surface, BLUE, (X_INDENT, Y_INDENT, healthbar_width, healthbar_height), 5)
+        rect(surface, BLUE, (X_INDENT, Y_INDENT, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT), 5)
 
         green_factor = self.hp / self.max_hp
         red_factor = 1 - green_factor
 
         rect(surface, (255 * (red_factor if red_factor < 1 else 1),
                        255 * (green_factor if green_factor > 0 else 0), 0),
-             (X_INDENT + 3, Y_INDENT + 3, (healthbar_width - 3) * green_factor, healthbar_height - 6))
+             (X_INDENT + 3, Y_INDENT + 3, (HEALTH_BAR_WIDTH - 3) * green_factor, HEALTH_BAR_HEIGHT - 6))
 
         hp_text_1 = large_font.render(str(format(self.hp, '.0f')), True, BLACK)
         hp_text_2 = large_font.render('/', True, BLACK)
         hp_text_3 = large_font.render(str(format(self.max_hp, '.0f')), True, BLACK)
-        surface.blit(hp_text_1, (X_INDENT + (healthbar_width - hp_text_2.get_width()) / 2 - hp_text_1.get_width(),
-                                 Y_INDENT + (healthbar_height - hp_text_1.get_height()) / 2))
-        surface.blit(hp_text_2, (X_INDENT + (healthbar_width - hp_text_2.get_width()) / 2,
-                                 Y_INDENT + (healthbar_height - hp_text_2.get_height()) / 2))
-        surface.blit(hp_text_3, (X_INDENT + (healthbar_width + hp_text_2.get_width()) / 2,
-                                 Y_INDENT + (healthbar_height - hp_text_3.get_height()) / 2))
+        surface.blit(hp_text_1, (X_INDENT + (HEALTH_BAR_WIDTH - hp_text_2.get_width()) / 2 - hp_text_1.get_width(),
+                                 Y_INDENT + (HEALTH_BAR_HEIGHT - hp_text_1.get_height()) / 2))
+        surface.blit(hp_text_2, (X_INDENT + (HEALTH_BAR_WIDTH - hp_text_2.get_width()) / 2,
+                                 Y_INDENT + (HEALTH_BAR_HEIGHT - hp_text_2.get_height()) / 2))
+        surface.blit(hp_text_3, (X_INDENT + (HEALTH_BAR_WIDTH + hp_text_2.get_width()) / 2,
+                                 Y_INDENT + (HEALTH_BAR_HEIGHT - hp_text_3.get_height()) / 2))
 
 
 if __name__ == '__main__':

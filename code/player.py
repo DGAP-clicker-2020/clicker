@@ -47,7 +47,7 @@ def read_players_from_file():
             new_dict = json.load(file)
             file.close()
         else:
-            with open('players', 'rb') as f:
+            with open(os.path.join('..', 'data', 'players'), 'rb') as f:
                 data = f.read()
             data = zlib.decompress(data)
             data = data.decode('utf-8')
@@ -58,7 +58,7 @@ def read_players_from_file():
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
                                   player_back_pict=val['player_back_pict']))
-    except (json.JSONDecodeError, FileNotFoundError):
+    except (json.JSONDecodeError, FileNotFoundError, zlib.error):
         pass
     if not players:
         new_data, new_name = ui.change_player()
@@ -91,7 +91,7 @@ def write_players_to_file(players):
     if not DEBUG_FLAG:
         dic = json.dumps(dic, indent='    ')
         dic = zlib.compress(dic.encode('utf-8'))
-        with open('players', 'wb') as file:
+        with open(os.path.join('..', 'data', 'players'), 'wb') as file:
             file.write(dic)
     else:
         with open('players.json', 'w') as file:
