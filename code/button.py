@@ -125,9 +125,9 @@ class Button:
     def handle_event(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.hovered = event.pos in self
-        elif event.type == pygame.MOUSEBUTTONDOWN and event.pos in self:
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and event.pos in self:
             self.clicked = True
-        elif event.type == pygame.MOUSEBUTTONUP:
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.clicked = False
 
     def handle_events(self, event_list):

@@ -76,6 +76,9 @@ def main():
                 if current_target.check_click(event):
                     current_target.hurt(current_player.hand_power)
 
+            if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                current_target.hurt(current_player.hand_power)
+
         current_target.hurt(current_player.afk_power / FPS)
 
         if current_target.died:
