@@ -133,5 +133,55 @@ def create_change_name_btn():
     )
 
 
+def _circlepoints(r):
+    _circle_cache = {}
+    r = int(round(r))
+    if r in _circle_cache:
+        return _circle_cache[r]
+    x, y, e = r, 0, 1 - r
+    _circle_cache[r] = points = []
+    while x >= y:
+        points.append((x, y))
+        y += 1
+        if e < 0:
+            e += 2 * y - 1
+        else:
+            x -= 1
+            e += 2 * (y - x) - 1
+    points += [(y, x) for x, y in points if x > y]
+    points += [(-x, y) for x, y in points if x]
+    points += [(x, -y) for x, y in points if y]
+    points.sort()
+    return points
+
+
+def render_outline(text, font, def_color, ext_color, opx=2):
+    text_surface = font.render(text, True, def_color).convert_alpha()
+    w = text_surface.get_width() + 2 * opx
+    h = font.get_height()
+
+    o_surf = pygame.Surface((w, h + 2 * opx)).convert_alpha()
+    o_surf.fill((0, 0, 0, 0))
+
+    surf = o_surf.copy()
+
+    o_surf.blit(font.render(text, True, ext_color).convert_alpha(), (0, 0))
+
+    for dx, dy in _circlepoints(opx):
+        surf.blit(o_surf, (dx + opx, dy + opx))
+
+    surf.blit(text_surface, (opx, opx))
+    return surf
+
+
+def show_money(money, font, normal_size, max_size, def_color, ext_color, x_cord, y_cord):
+    current_money_text = render_outline(str(money), pygame.font.Font(font, normal_size), def_color, ext_color)
+    dollar_text = render_outline('$', pygame.font.Font(font, normal_size), def_color, ext_color)
+
+    screen.blit(current_money_text, (x_cord - current_money_text.get_width() - dollar_text.get_width(), y_cord
+                                     - current_money_text.get_height() / 2))
+    screen.blit(dollar_text, (x_cord - dollar_text.get_width(), y_cord - dollar_text.get_height() / 2))
+
+
 if __name__ == '__main__':
     print('This module is not for direct run!')

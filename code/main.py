@@ -41,12 +41,7 @@ def main():
 
         draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn)
 
-        current_money_text = ui.pygame.font.Font('terminator.ttf', 22).render('money: ' + str(current_player.money),
-                                                                              True, BLACK)
-        dollar_text = ui.pygame.font.Font('terminator.ttf', 22).render('$', True, BLACK)
-
-        ui.screen.blit(current_money_text, (240, 128))
-        ui.screen.blit(dollar_text, (470, 128))
+        ui.show_money(current_player.money, 'SonicBT.otf', 40, 30, YELLOW, BLACK, window_width, 145)
 
         for event in pg.event.get():
 
