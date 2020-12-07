@@ -5,6 +5,7 @@ from settings import *
 from ui import large_font
 from music import *
 
+
 def to_fixed(num_obj, digits=0):
     return f"{num_obj:.{digits}f}"
 
