@@ -9,6 +9,7 @@ import ui
 import menu
 import shop
 from settings import *
+from music import *
 
 
 def draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn):
@@ -24,7 +25,7 @@ def main():
     Главная функция. Делает всё(почти).
     """
     clock = pg.time.Clock()
-
+    back_sound()
     change_name_btn = ui.create_change_name_btn()
     menu_open_btn = menu.create_menu_btn()
     shop_open_btn = shop.create_shop_btn()
@@ -50,17 +51,21 @@ def main():
             shop_open_btn.handle_event(event)
 
             if change_name_btn.clicked:
+                pick_snd.play()
                 new_data, new_name = ui.change_player()
                 change_name_btn.clicked = False
                 if new_data:
                     players, current_player = player.handle_new_data(new_name, players, current_player)
                     current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
+                    pick_snd.play()
 
             if menu_open_btn.clicked:
+                pick_snd.play()
                 menu_open_btn.clicked = False
                 menu.menu_window(current_player)
 
             if shop_open_btn.clicked:
+                pick_snd.play()
                 shop_open_btn.clicked = False
                 shop.shop_window(current_player)
 

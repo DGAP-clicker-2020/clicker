@@ -1,6 +1,6 @@
 import ui
 from settings import *
-
+from music import *
 
 def create_menu_btn():
     """
@@ -50,6 +50,7 @@ def menu_window(current_player):
         for event in ui.pygame.event.get():
             return_btn.handle_event(event)
             if return_btn.clicked:
+                pick_snd.play()
                 finished = True
             if event.type == ui.pygame.QUIT:
                 finished = True

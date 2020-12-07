@@ -1,6 +1,6 @@
 import ui
 from settings import *
-
+from music import *
 
 def create_shop_btn():
     """
@@ -94,6 +94,7 @@ def shop_window(current_player):
                 buy_afk_power_btn.color = (51, 153, 255)
                 buy_afk_power_btn.handle_event(event)
                 if buy_afk_power_btn.clicked:
+                    purchase_snd.play()
                     buy_afk_power_btn.clicked = False
                     current_player.afk_power += 1
                     current_player.money -= AFK_POWER_COST
@@ -105,6 +106,7 @@ def shop_window(current_player):
                 buy_hand_power_btn.color = (51, 153, 255)
                 buy_hand_power_btn.handle_event(event)
                 if buy_hand_power_btn.clicked:
+                    purchase_snd.play()
                     buy_hand_power_btn.clicked = False
                     current_player.hand_power += 1
                     current_player.money -= HAND_POWER_COST
@@ -113,6 +115,7 @@ def shop_window(current_player):
                 buy_hand_power_btn.color = (128, 128, 128)
 
             if return_btn.clicked:
+                pick_snd.play()
                 finished = True
             if event.type == ui.pygame.QUIT:
                 finished = True

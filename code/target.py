@@ -3,7 +3,7 @@ from random import choice
 from pygame import gfxdraw
 from settings import *
 from ui import large_font
-
+from music import *
 
 def to_fixed(num_obj, digits=0):
     return f"{num_obj:.{digits}f}"
@@ -37,6 +37,9 @@ class Target:
         self.color = choice(COLORS)  # цвет
         self.max_hp = self.hp = hp  # максимальное начальное здоровье
         self.died = False  # флаг смерти
+        self.kill_snd = kill_snd
+        self.hit_snd = hit_snd
+
 
     def check_click(self, event):
         """
@@ -46,7 +49,9 @@ class Target:
         :return: True или False в зависимости от попадания по цели
         """
         if (event.pos[0] - self.x) ** 2 + (event.pos[1] - self.y) ** 2 < int(self.r) ** 2:
+            self.hit_snd.play()
             return True
+
         else:
             return False
 
@@ -65,6 +70,7 @@ class Target:
         """
         if self.hp <= 0:
             self.died = True
+            self.kill_snd.play()
 
     def draw(self, surface):
         """
