@@ -155,8 +155,8 @@ def _circlepoints(r):  # отвечает за обвод текста
     return points
 
 
-def render_outline(text, font, def_color, ext_color, opx):  # отвечает за обвод текста
-    """рисует задний фон
+def render_outline(text, font, def_color, ext_color, opx):  # рисует текст с обводкой
+    """
         type text: string
         type font: string
         type def_color(внутренний цвет): RGB
