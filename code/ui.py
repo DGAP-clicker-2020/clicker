@@ -133,7 +133,7 @@ def create_change_name_btn():
     )
 
 
-def _circlepoints(r):
+def _circlepoints(r):  # отвечает за обвод текста
     _circle_cache = {}
     r = int(round(r))
     if r in _circle_cache:
@@ -155,7 +155,14 @@ def _circlepoints(r):
     return points
 
 
-def render_outline(text, font, def_color, ext_color, opx=2):
+def render_outline(text, font, def_color, ext_color, opx):  # отвечает за обвод текста
+    """рисует задний фон
+        type text: string
+        type font: string
+        type def_color(внутренний цвет): RGB
+        type ext_color(цвет обводки): RGB
+        type opx(толщина обводки): int
+    """
     text_surface = font.render(text, True, def_color).convert_alpha()
     w = text_surface.get_width() + 2 * opx
     h = font.get_height()
@@ -175,8 +182,10 @@ def render_outline(text, font, def_color, ext_color, opx=2):
 
 
 def show_money(money, font, normal_size, max_size, def_color, ext_color, x_cord, y_cord):
-    current_money_text = render_outline(str(money), pygame.font.Font(font, normal_size), def_color, ext_color)
-    dollar_text = render_outline('$', pygame.font.Font(font, normal_size), def_color, ext_color)
+    size = normal_size
+
+    current_money_text = render_outline(str(money), pygame.font.Font(font, size), def_color, ext_color, size // 20)
+    dollar_text = render_outline('$', pygame.font.Font(font, size), def_color, ext_color, size // 20)
 
     screen.blit(current_money_text, (x_cord - current_money_text.get_width() - dollar_text.get_width(), y_cord
                                      - current_money_text.get_height() / 2))
