@@ -1,6 +1,7 @@
 import ui
 from settings import *
-from music import *
+import music
+
 
 def create_menu_btn():
     """
@@ -12,7 +13,7 @@ def create_menu_btn():
         10,
         170,
         text='Menu',
-        color=(51, 153, 255),
+        color=DEFAULT_BUTTON_COLOR,
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
@@ -29,28 +30,28 @@ def menu_window(current_player):
         10,
         170,
         text='return',
-        color=(51, 153, 255),
+        color=DEFAULT_BUTTON_COLOR,
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
         border_width=2
     )
 
-    hello_text = ui.pygame.font.Font('terminator.ttf', 45).render("MENU", True, ORANGE)
+    hello_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 45).render("MENU", True, ORANGE)
     clock = ui.pygame.time.Clock()
-    back_pict = back_pictures[current_player.player_back_pict]  # выбирает задний фон
+    back_pict = BACK_PICTURES[current_player.player_back_pict]  # выбирает задний фон
     finished = False
 
     while not finished:
-        clock.tick(ui.FPS)
-        ui.screen.fill(ui.BLACK)
+        clock.tick(FPS)
+        ui.screen.fill(BLACK)
         ui.draw_back_picture(back_pict, ui.screen)
-        ui.screen.blit(hello_text, ((ui.window_width - hello_text.get_width()) / 2, ui.window_width / 30))
+        ui.screen.blit(hello_text, ((WINDOW_WIDTH - hello_text.get_width()) / 2, WINDOW_WIDTH / 30))
         return_btn.draw()
         for event in ui.pygame.event.get():
             return_btn.handle_event(event)
             if return_btn.clicked:
-                pick_snd.play()
+                music.pick_snd.play()
                 finished = True
             if event.type == ui.pygame.QUIT:
                 finished = True

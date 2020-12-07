@@ -1,14 +1,15 @@
 import pygame
 
+import music
 from button import Button
 from settings import *
 
 pygame.init()
 
-large_font = pygame.font.Font('terminator.ttf', 30)
-lower_font = pygame.font.Font('terminator.ttf', 15)
+large_font = pygame.font.Font(TERMINATOR_FONT_PATH, 30)
+lower_font = pygame.font.Font(TERMINATOR_FONT_PATH, 20)
 
-screen = pygame.display.set_mode((window_width, window_height))
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 screen.fill(BLACK)
 pygame.display.update()
 
@@ -16,7 +17,7 @@ pygame.display.update()
 def draw_back_picture(name, surface):
     """рисует задний фон
     type name(названия файла): string"""
-    surface.blit(pygame.image.load(name), (0, 0, window_width, window_height))
+    surface.blit(pygame.image.load(name), (0, 0, WINDOW_WIDTH, WINDOW_HEIGHT))
 
 
 def show_offline_income(money_earned, offline_time):
@@ -25,7 +26,7 @@ def show_offline_income(money_earned, offline_time):
         5,
         100,
         text='OK',
-        color=(51, 153, 255),
+        color=DEFAULT_BUTTON_COLOR,
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
@@ -45,7 +46,7 @@ def show_offline_income(money_earned, offline_time):
     while not finished:
         clock.tick(FPS)
         screen.fill(BLACK)
-        draw_back_picture(back_pictures['mipt_logo.jpg'], screen)
+        draw_back_picture(BACK_PICTURES['mipt_logo.jpg'], screen)
         screen.blit(text1, (5, 0))
         screen.blit(text2, (5, 30))
         screen.blit(text3, (5, 60))
@@ -54,6 +55,7 @@ def show_offline_income(money_earned, offline_time):
             cancel_btn.handle_event(event)
             if cancel_btn.clicked:
                 finished = True
+                music.pick_snd.play()
             if event.type == pygame.QUIT:
                 finished = True
         screen.blit(screen, (0, 0))
@@ -75,7 +77,7 @@ def change_player():
         10,
         130,
         text='Cancel',
-        color=(51, 153, 255),
+        color=DEFAULT_BUTTON_COLOR,
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,
@@ -89,7 +91,7 @@ def change_player():
         new_data = True
         clock.tick(FPS)
         screen.fill(BLACK)
-        draw_back_picture(back_pictures['mipt_logo.jpg'], screen)
+        draw_back_picture(BACK_PICTURES['mipt_logo.jpg'], screen)
         screen.blit(hello_text, (10, 10))
         cancel_btn.draw()
         for event in pygame.event.get():
@@ -97,6 +99,7 @@ def change_player():
             if cancel_btn.clicked:
                 finished = True
                 new_data = False
+                music.pick_snd.play()
             if event.type == pygame.QUIT:
                 finished = True
                 new_data = False
@@ -104,6 +107,7 @@ def change_player():
                 if event.key == pygame.K_RETURN:
                     finished = True
                     new_data = True
+                    music.pick_snd.play()
                     break
                 elif event.key == 8:
                     new_name = new_name[:-1]
@@ -125,7 +129,7 @@ def create_change_name_btn():
         10,
         130,
         text='Change player',
-        color=(51, 153, 255),
+        color=DEFAULT_BUTTON_COLOR,
         hover_color=(235, 146, 37),
         clicked_color=(213, 23, 23),
         border_radius=5,

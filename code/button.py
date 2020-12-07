@@ -2,6 +2,8 @@ from typing import Tuple, Callable
 
 import pygame
 
+from settings import TERMINATOR_FONT_PATH
+
 
 def _round_rect(surface, rect, color, radius=None):
     if not radius:
@@ -84,7 +86,7 @@ class Button:
         self.text = text
 
         if font is None:
-            self.font = pygame.font.Font('terminator.ttf', 15)
+            self.font = pygame.font.Font(TERMINATOR_FONT_PATH, 15)
 
         text_size = self.font.size(text)
         self.width = width or text_size[0] + self.border_width + 2
