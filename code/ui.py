@@ -181,11 +181,9 @@ def render_outline(text, font, def_color, ext_color, opx):  # рисует те�
     return surf
 
 
-def show_money(money, font, normal_size, max_size, def_color, ext_color, x_cord, y_cord):
-    size = normal_size
-
-    current_money_text = render_outline(str(money), pygame.font.Font(font, size), def_color, ext_color, size // 20)
-    dollar_text = render_outline('$', pygame.font.Font(font, size), def_color, ext_color, size // 20)
+def show_money(money, font, size, def_color, ext_color, x_cord, y_cord):
+    current_money_text = render_outline(str(money), pygame.font.Font(font, size), def_color, ext_color, size / 20)
+    dollar_text = render_outline('$', pygame.font.Font(font, size), def_color, ext_color, size / 20)
 
     screen.blit(current_money_text, (x_cord - current_money_text.get_width() - dollar_text.get_width(), y_cord
                                      - current_money_text.get_height() / 2))

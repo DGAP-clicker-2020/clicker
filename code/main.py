@@ -41,7 +41,7 @@ def main():
 
         draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn)
 
-        ui.show_money(current_player.money, 'SonicBT.otf', 40, 60, YELLOW, BLACK, window_width, 145)
+        ui.show_money(current_player.money, 'SonicBT.otf', 40, GOLD, BLACK, window_width, 145)
 
         for event in pg.event.get():
 

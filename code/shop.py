@@ -117,6 +117,7 @@ def shop_window(current_player):
             if event.type == ui.pygame.QUIT:
                 finished = True
 
-        current_money_text = ui.large_font.render('money: ' + str(current_player.money), True, BLACK)
+        current_money_text = ui.render_outline('money: ' + str(current_player.money),
+                                               ui.pygame.font.Font('SonicBT.otf', 50), GOLD, BLACK, 2)
         ui.screen.blit(current_money_text, (10, 70))
         ui.pygame.display.update()
