@@ -5,6 +5,7 @@ import zlib
 from random import randint
 
 import ui
+import music
 from settings import *
 from target import calculate_hp
 
@@ -17,6 +18,7 @@ def handle_new_data(new_name, players, current_player):
     :param current_player: текущий игрок
     :return: возвращает изменённый список игроков и текущего игрока
     """
+    current_player.bg_snd.stop()
     current_player.last_player = False
     really_new_player = True
     for pl in players:
@@ -31,6 +33,7 @@ def handle_new_data(new_name, players, current_player):
         else:
             current_player = Player(name=new_name, last_player=True)
         players.append(current_player)
+    current_player.bg_snd.play(-1, 0, 3000)
     return players, current_player
 
 
@@ -47,7 +50,7 @@ def read_players_from_file():
             new_dict = json.load(file)
             file.close()
         else:
-            with open('players', 'rb') as f:
+            with open(os.path.join('..', 'data', 'players'), 'rb') as f:
                 data = f.read()
             data = zlib.decompress(data)
             data = data.decode('utf-8')
@@ -57,8 +60,9 @@ def read_players_from_file():
                                   last_player=val['last_player'], current_target=val['current_target'],
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
-                                  player_back_pict=val['player_back_pict']))
-    except (json.JSONDecodeError, FileNotFoundError):
+                                  player_back_pict=val['player_back_pict'], total_clicks=val['total_clicks'],
+                                  total_damage=val['total_damage'], matreshka=val['matreshka']))
+    except (json.JSONDecodeError, FileNotFoundError, zlib.error):
         pass
     if not players:
         new_data, new_name = ui.change_player()
@@ -85,13 +89,15 @@ def write_players_to_file(players):
     Функция записывает информацию об игроках в файл
     :param players: список игроков
     """
+    for pl in players:
+        pl.bg_snd = None
     dic = {}
     for count, pl in enumerate(players):
         dic[count] = pl.__dict__
     if not DEBUG_FLAG:
         dic = json.dumps(dic, indent='    ')
         dic = zlib.compress(dic.encode('utf-8'))
-        with open('players', 'wb') as file:
+        with open(os.path.join('..', 'data', 'players'), 'wb') as file:
             file.write(dic)
     else:
         with open('players.json', 'w') as file:
@@ -114,7 +120,10 @@ class Player:
                  money=0,
                  last_login=int(time.time()),
                  new_login=int(time.time()),
-                 player_back_pict='kpm_1.jpg'
+                 player_back_pict='kpm_1.jpg',
+                 total_clicks=0,
+                 total_damage=0,
+                 matreshka=False,
                  ):
         """
         Сборщик экземпляра класса Player
@@ -141,6 +150,15 @@ class Player:
         self.last_login = last_login
         self.new_login = new_login
         self.player_back_pict = player_back_pict
+        self.total_clicks = total_clicks
+        self.total_damage = total_damage
+        self.matreshka = matreshka
+
+        self.bg_snd = music.bg_snd if not self.matreshka else music.matreshka_snd
+
+        if self.last_player:
+            self.bg_snd.play(-1, 0, 3000)
+
         self.calculate_offline_money()
 
     def power_up(self):
@@ -159,9 +177,12 @@ class Player:
         """
         dic = self.__dict__
         count = 0
-        for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money']:
-            text = ui.lower_font.render(str(key) + ': ' + str(dic[key]), True, BLACK)
-            ui.screen.blit(text, (10, 200 + count * text.get_height()))
+        for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money', 'total_clicks', 'total_damage']:
+            if key == 'total_damage':
+                text = ui.lower_font.render(str(key) + ': ' + str(format(dic[key], '.2e')), True, BLACK)
+            else:
+                text = ui.lower_font.render(str(key) + ': ' + str(dic[key]), True, BLACK)
+            ui.screen.blit(text, (10, 200 + count * 25))
             count += 1
 
     def calculate_offline_money(self):
@@ -171,6 +192,7 @@ class Player:
         initial_money = self.money
         offline_time = self.new_login - self.last_login
         damage = offline_time * self.afk_power
+        self.total_damage += damage
         while True:
             hp = calculate_hp(self.current_target)
             if damage > hp:
