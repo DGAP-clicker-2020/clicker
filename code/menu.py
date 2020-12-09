@@ -24,6 +24,7 @@ def create_menu_btn():
 def menu_window(current_player):
     """
     Функция для вывода меню
+    :param current_player: текущий игрок
     """
     return_btn = ui.Button(
         ui.screen,

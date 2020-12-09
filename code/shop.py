@@ -5,6 +5,13 @@ import music
 
 class Product:
     def __init__(self, btn_x_coord, btn_y_coord, content_of_text, money_cost):
+        """
+        Сборщик класса Товар
+        :param btn_x_coord: координата x кнопки
+        :param btn_y_coord: координата y кнопки
+        :param content_of_text: описание товара
+        :param money_cost: стоимость улучшения
+        """
         self.button = ui.Button(
             ui.screen,
             btn_x_coord,
@@ -19,15 +26,29 @@ class Product:
         self.content_of_text = content_of_text
         self.money_cost = money_cost
         self.text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render(content_of_text, True, BLACK)
-        self.cost_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render("-- " + str(self.money_cost) + "$",
+        self.cost_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render("- " + str(self.money_cost) + "$",
                                                                               True, BLACK)
+        if self.content_of_text == 'matreshka':
+            self.cost_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render("-" + str(self.money_cost) + "$",
+                                                                                  True, BLACK)
 
     def draw(self):
+        """
+        Метод, отвечающий за прорисовку товара.
+        """
         ui.screen.blit(self.text, (10, self.button.y - 5))
-        ui.screen.blit(self.cost_text, (300, self.button.y - 5))
+        if self.content_of_text == 'matreshka':
+            ui.screen.blit(self.cost_text, (270, self.button.y - 5))
+        else:
+            ui.screen.blit(self.cost_text, (300, self.button.y - 5))
         self.button.draw()
 
     def manage_event(self, event, current_player):
+        """
+        Обработчик событий
+        :param event: событие
+        :param current_player: текущий игрок
+        """
         if current_player.money >= self.money_cost:
             self.button.color = ENOUGH_MONEY_COLOR
             self.button.handle_event(event)
@@ -38,6 +59,11 @@ class Product:
                     current_player.afk_power += 1
                 elif self.content_of_text == 'hand power':
                     current_player.hand_power += 1
+                elif self.content_of_text == 'matreshka':
+                    current_player.bg_snd.stop()
+                    current_player.bg_snd = music.matreshka_snd
+                    current_player.matreshka = True
+                    current_player.bg_snd.play(-1, 0, 3000)
                 current_player.money -= self.money_cost
         else:
             self.button.hovered = False
@@ -80,8 +106,9 @@ def shop_window(current_player):
 
     afk_power = Product(440, 255, 'afk power', AFK_POWER_COST)
     hand_power = Product(440, 295, 'hand power', HAND_POWER_COST)
+    matreshka_mode = Product(440, 335, 'matreshka', MATRESHKA_COST)
 
-    products = [afk_power, hand_power]
+    products = [afk_power, hand_power, matreshka_mode]
 
     finished = False
     clock = ui.pygame.time.Clock()

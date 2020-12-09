@@ -5,6 +5,7 @@ import zlib
 from random import randint
 
 import ui
+import music
 from settings import *
 from target import calculate_hp
 
@@ -17,6 +18,7 @@ def handle_new_data(new_name, players, current_player):
     :param current_player: текущий игрок
     :return: возвращает изменённый список игроков и текущего игрока
     """
+    current_player.bg_snd.stop()
     current_player.last_player = False
     really_new_player = True
     for pl in players:
@@ -31,6 +33,7 @@ def handle_new_data(new_name, players, current_player):
         else:
             current_player = Player(name=new_name, last_player=True)
         players.append(current_player)
+    current_player.bg_snd.play(-1, 0, 3000)
     return players, current_player
 
 
@@ -58,7 +61,7 @@ def read_players_from_file():
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
                                   player_back_pict=val['player_back_pict'], total_clicks=val['total_clicks'],
-                                  total_damage=val['total_damage']))
+                                  total_damage=val['total_damage'], matreshka=val['matreshka']))
     except (json.JSONDecodeError, FileNotFoundError, zlib.error):
         pass
     if not players:
@@ -86,6 +89,8 @@ def write_players_to_file(players):
     Функция записывает информацию об игроках в файл
     :param players: список игроков
     """
+    for pl in players:
+        pl.bg_snd = None
     dic = {}
     for count, pl in enumerate(players):
         dic[count] = pl.__dict__
@@ -118,6 +123,7 @@ class Player:
                  player_back_pict='kpm_1.jpg',
                  total_clicks=0,
                  total_damage=0,
+                 matreshka=False,
                  ):
         """
         Сборщик экземпляра класса Player
@@ -146,6 +152,12 @@ class Player:
         self.player_back_pict = player_back_pict
         self.total_clicks = total_clicks
         self.total_damage = total_damage
+        self.matreshka = matreshka
+
+        self.bg_snd = music.bg_snd if not self.matreshka else music.matreshka_snd
+
+        if self.last_player:
+            self.bg_snd.play(-1, 0, 3000)
 
         self.calculate_offline_money()
 

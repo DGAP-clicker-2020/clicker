@@ -96,7 +96,7 @@ class Target:
                        255 * (green_factor if green_factor > 0 else 0), 0),
              (X_INDENT + 3, Y_INDENT + 3, (HEALTH_BAR_WIDTH - 3) * green_factor, HEALTH_BAR_HEIGHT - 6))
 
-        hp_text_1 = large_font.render(str(format(self.hp, '.0f')), True, BLACK)
+        hp_text_1 = large_font.render(str(format(self.hp + 1 if self.hp < 0.5 else self.hp, '.0f')), True, BLACK)
         hp_text_2 = large_font.render('/', True, BLACK)
         hp_text_3 = large_font.render(str(format(self.max_hp, '.0f')), True, BLACK)
         surface.blit(hp_text_1, (X_INDENT + (HEALTH_BAR_WIDTH - hp_text_2.get_width()) / 2 - hp_text_1.get_width(),
