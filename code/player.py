@@ -29,7 +29,7 @@ def handle_new_data(new_name, players, current_player):
             really_new_player = False
     if really_new_player:
         if new_name == '':
-            current_player = Player
+            current_player = Player(name='sample name')
         else:
             current_player = Player(name=new_name, last_player=True)
         players.append(current_player)
@@ -66,7 +66,7 @@ def read_players_from_file():
         pass
     if not players:
         new_data, new_name = ui.change_player()
-        if not new_data:
+        if not new_data or new_name == '':
             players.append(Player(name='Sample Name', last_player=True))
         else:
             players.append(Player(name=new_name, last_player=True))
@@ -91,6 +91,8 @@ def write_players_to_file(players):
     """
     for pl in players:
         pl.bg_snd = None
+        pl.hold_products = tuple(pl.hold_products)
+
     dic = {}
     for count, pl in enumerate(players):
         dic[count] = pl.__dict__
@@ -124,7 +126,7 @@ class Player:
                  total_clicks=0,
                  total_damage=0,
                  audio_volume=50,
-                 hold_products=[1, 2, 3],
+                 hold_products=(1, 2, 3),
                  bg_snd=music.bg_snd
                  ):
         """
@@ -141,6 +143,8 @@ class Player:
         :param afk_power: урон каждую секунду
         :param money: колличество денег
         """
+        if hold_products is None:
+            hold_products = [1, 2, 3]
         self.name = name
         self.id_num = id_num
         self.hand_power = hand_power
@@ -155,7 +159,7 @@ class Player:
         self.total_clicks = total_clicks
         self.total_damage = total_damage
         self.audio_volume = audio_volume
-        self.hold_products = hold_products
+        self.hold_products = list(hold_products)
         self.bg_snd = bg_snd
 
         if self.last_player:

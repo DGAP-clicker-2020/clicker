@@ -55,19 +55,21 @@ def main():
                 music.pick_snd.play()
                 new_data, new_name = ui.change_player()
                 change_name_btn.clicked = False
+                change_name_btn.hovered = False
                 if new_data:
                     players, current_player = player.handle_new_data(new_name, players, current_player)
                     current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
-                    music.pick_snd.play()
 
             if menu_open_btn.clicked:
                 music.pick_snd.play()
                 menu_open_btn.clicked = False
+                menu_open_btn.hovered = False
                 menu.menu_window(current_player)
 
             if shop_open_btn.clicked:
                 music.pick_snd.play()
                 shop_open_btn.clicked = False
+                shop_open_btn.hovered = False
                 shop.shop_window(current_player)
 
             if event.type == pg.QUIT:
