@@ -39,6 +39,18 @@ def menu_window(current_player):
         border_width=2
     )
 
+    volume_slider = slider.Slider(
+        ui.screen,
+        x=50,
+        y=150,
+        width=WINDOW_WIDTH - 100,
+        height=10,
+        thin=5,
+        color=RED,
+        color_ext=BLACK,
+        player=current_player
+    )
+
     hello_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 45).render("MENU", True, ORANGE)
     clock = ui.pygame.time.Clock()
     back_pict = BACK_PICTURES[current_player.player_back_pict]  # выбирает задний фон

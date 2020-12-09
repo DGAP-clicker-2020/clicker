@@ -123,6 +123,7 @@ class Player:
                  player_back_pict='kpm_1.jpg',
                  total_clicks=0,
                  total_damage=0,
+                 audio_volume=50,
                  matreshka=False,
                  ):
         """
@@ -153,6 +154,7 @@ class Player:
         self.total_clicks = total_clicks
         self.total_damage = total_damage
         self.matreshka = matreshka
+        self.audio_volume = audio_volume
 
         self.bg_snd = music.bg_snd if not self.matreshka else music.matreshka_snd
 
@@ -177,7 +179,8 @@ class Player:
         """
         dic = self.__dict__
         count = 0
-        for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money', 'total_clicks', 'total_damage']:
+        for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money', 'total_clicks', 'total_damage',
+                    'audio_volume']:
             if key == 'total_damage':
                 text = ui.lower_font.render(str(key) + ': ' + str(format(dic[key], '.2e')), True, BLACK)
             else:

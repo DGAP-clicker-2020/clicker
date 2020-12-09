@@ -43,6 +43,7 @@ def main():
         draw_objects(current_player, current_target, change_name_btn, menu_open_btn, shop_open_btn)
 
         ui.show_money(current_player.money, SONICBT_FONT_PATH, 40, GOLD, BLACK, WINDOW_WIDTH, 145)
+        music.set_all_volume(music.all_sounds, current_player.audio_volume)
 
         for event in pg.event.get():
 
