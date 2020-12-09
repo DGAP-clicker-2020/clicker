@@ -1,13 +1,13 @@
 import pygame
-
 from typing import Tuple
 
 
 def slider_draw(surface, x, y, width, height, color, color_ext, slide_x, slide_y, thin):
 
     radius = height
-
-    pygame.draw.rect(surface, color, [x, y + (height - thin) // 2, width, thin])
+    pygame.draw.rect(surface, color_ext, [x - 1, y + 1, width + 2, thin + 2])
+    pygame.draw.rect(surface, (139, 0, 255), [x, y + (height - thin) // 2, slide_x - x, thin])
+    pygame.draw.rect(surface, (128, 128, 128), [slide_x, y + (height - thin) // 2,  width - (slide_x - x), thin])
 
     pygame.gfxdraw.aacircle(surface, int(slide_x), int(slide_y), radius + 1, color_ext)
     pygame.gfxdraw.filled_circle(surface, int(slide_x), int(slide_y), radius + 1, color_ext)
@@ -37,14 +37,14 @@ class Slider:
         self.height = height
         self.color = color or (224, 224, 224)
         self.color_ext = color_ext
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
         self.player = player
-        self.slide_x = self.x + self.player.audio_volume // 100 * self.width
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+        self.slide_x = self.x + self.width // 2
         self.slide_y = self.y + self.height // 2
 
     def draw(self):
         self.handle_event()
-        self.player.audio_volume = (self.slide_x - self.x) // self.width * 100
+        self.player.audio_volume = int((self.slide_x - self.x) / self.width * 100)
         slider_draw(self.surface, self.x, self.y,  self.width, self.height, self.color, self.color_ext, self.slide_x,
                     self.slide_y, self.thin)
 

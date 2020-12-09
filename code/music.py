@@ -15,8 +15,7 @@ all_sounds = [bg_snd, matreshka_snd, purchase_snd, hit_snd, kill_snd, pick_snd]
 
 def set_all_volume(sounds, mult):
     for sound in sounds:
-        vol = sound.get_volume()
-        sound.set_volume(min(vol * mult / 100, 1.0))
+        sound.set_volume(mult/100)
 
 
 if __name__ == '__main__':
