@@ -61,7 +61,8 @@ def read_players_from_file():
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
                                   player_back_pict=val['player_back_pict'], total_clicks=val['total_clicks'],
-                                  total_damage=val['total_damage'], hold_products=val['hold_products']))
+                                  total_damage=val['total_damage'], hold_products=val['hold_products'],
+                                  back_snd=val['back_snd']))
     except (json.JSONDecodeError, FileNotFoundError, zlib.error):
         pass
     if not players:
@@ -124,8 +125,8 @@ class Player:
                  total_clicks=0,
                  total_damage=0,
                  audio_volume=50,
-                 hold_products=[1, 2, 3],
-                 bg_snd=music.bg_snd
+                 hold_products=None,
+                 back_snd=3
                  ):
         """
         Сборщик экземпляра класса Player
@@ -141,6 +142,8 @@ class Player:
         :param afk_power: урон каждую секунду
         :param money: колличество денег
         """
+        if hold_products is None:
+            hold_products = [3]
         self.name = name
         self.id_num = id_num
         self.hand_power = hand_power
@@ -156,7 +159,8 @@ class Player:
         self.total_damage = total_damage
         self.audio_volume = audio_volume
         self.hold_products = hold_products
-        self.bg_snd = bg_snd
+        self.back_snd = back_snd
+        self.bg_snd = music.all_music[self.back_snd]
 
         if self.last_player:
             self.bg_snd.play(-1, 0, 3000)
@@ -182,9 +186,10 @@ class Player:
         for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money', 'total_clicks', 'total_damage',
                     'audio_volume']:
             if key == 'total_damage':
-                text = ui.lower_font.render(str(key) + ': ' + str(format(dic[key], '.2e')), True, BLACK)
+                text = ui.render_outline(str(key) + ': ' + str(format(dic[key], '.2e')), ui.lower_font, CYAN, BLACK, 1)
             else:
-                text = ui.lower_font.render(str(key) + ': ' + str(dic[key]), True, BLACK)
+                text = ui.render_outline(str(key) + ': ' + str(dic[key]), ui.lower_font, CYAN, BLACK, 1)
+
             ui.screen.blit(text, (10, 200 + count * 25))
             count += 1
 

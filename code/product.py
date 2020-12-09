@@ -4,11 +4,9 @@ from settings import *
 
 
 class Product:
-    def __init__(self, x_coord, y_coord, content_of_text, money_cost, type, flag):
+    def __init__(self, content_of_text, money_cost, type, flag):
         """
         Сборщик класса Товар
-        :param x_coord: координата x
-        :param y_coord: координата y
         :param content_of_text: описание товара
         :param money_cost: стоимость улучшения
         :type вид товара
@@ -16,12 +14,13 @@ class Product:
         self.type = type
         self.hold = False
         self.flag = flag
-        self.x_coord = x_coord
-        self.y_coord = y_coord
+        self.x_coord = 5
+        self.y_coord = 230 + 40 * (self.flag - 1)
         self.content_of_text = content_of_text
         self.money_cost = money_cost
-        self.text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render(content_of_text + "-" + str(self.money_cost)
-                                                                         + "$", True, BLACK)
+
+        self.text = ui.render_outline(content_of_text + "-" + str(self.money_cost) + "$",
+                                      ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25), WHITE, BLACK, 2)
 
         self.button = ui.Button(
             ui.screen,
@@ -35,7 +34,6 @@ class Product:
             border_width=2
         )
 
-
     def draw(self):
         """
         Метод, отвечающий за прорисовку товара.
@@ -44,8 +42,11 @@ class Product:
         self.button.draw()
 
     def check_hold(self, current_player):
-        if self.hold == True and self.type != 'boost':
+        if self.hold and self.type != 'boost':
             self.button.color = YELLOW
+            self.button.text = 'use'
+        if self.hold and self.type != 'boost' and current_player.bg_snd == music.all_music[self.flag]:
+            self.button.color = WHITE
         if self.flag in current_player.hold_products:
             self.hold = True
 
@@ -55,7 +56,7 @@ class Product:
         :param event: событие
         :param current_player: текущий игрок
         """
-        if current_player.money >= self.money_cost:
+        if current_player.money >= self.money_cost or self.hold:
             self.button.color = ENOUGH_MONEY_COLOR
             self.button.handle_event(event)
             if self.button.clicked:
@@ -67,27 +68,29 @@ class Product:
                 elif self.content_of_text == 'hand power':
                     current_player.hand_power += 1
                     current_player.money -= self.money_cost
-                elif self.type == 'music' and self.hold == False:
-                    current_player.hold_products += self.flag
+                elif self.type == 'music' and not self.hold:
+                    current_player.hold_products.append(self.flag)
                     self.hold = True
                     current_player.bg_snd.stop()
-                    current_player.bg_snd = music.all_music[self.flag]
+                    current_player.back_snd = self.flag
+                    current_player.bg_snd = music.all_music[current_player.back_snd]
                     current_player.bg_snd.play(-1, 0, 3000)
                     current_player.money -= self.money_cost
-                elif self.type == 'music' and self.hold == True:
+                elif self.type == 'music' and self.hold:
                     current_player.bg_snd.stop()
-                    current_player.bg_snd = music.all_music[self.flag]
+                    current_player.back_snd = self.flag
+                    current_player.bg_snd = music.all_music[current_player.back_snd]
                     current_player.bg_snd.play(-1, 0, 3000)
         else:
             self.button.hovered = False
             self.button.color = NOT_ENOUGH_MONEY_COLOR
 
 
-afk_power = Product(0, 230, 'afk power', 20, 'boost', 1)
-hand_power = Product(0, 270, 'hand power', 30, 'boost', 2)
-bg_snd = Product(0, 310, 'def_sound', 0, 'music', 3)
-minecraft_1_snd = Product(0, 350, 'minecraft_1', 100, 'music', 4)
-minecraft_2_snd = Product(0, 390, 'minecraft_2', 200, 'music', 5)
-matreshka_snd = Product(0, 430, 'matreshka', 9999, 'music', 6)
+afk_power = Product('afk power', 20, 'boost', 1)
+hand_power = Product('hand power', 30, 'boost', 2)
+def_snd = Product('def_sound', 0, 'music', 3)
+minecraft_1_snd = Product('minecraft_1', 100, 'music', 4)
+minecraft_2_snd = Product('minecraft_2', 200, 'music', 5)
+matreshka_snd = Product('matreshka', 9999, 'music', 6)
 
-products = [afk_power, hand_power, bg_snd, minecraft_1_snd, minecraft_2_snd, matreshka_snd]
+products = [afk_power, hand_power, def_snd, minecraft_1_snd, minecraft_2_snd, matreshka_snd]
