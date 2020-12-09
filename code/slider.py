@@ -39,7 +39,7 @@ class Slider:
         self.color_ext = color_ext
         self.player = player
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
-        self.slide_x = self.x + self.width // 2
+        self.slide_x = self.x + self.player.audio_volume / 100 * self.width
         self.slide_y = self.y + self.height // 2
 
     def draw(self):

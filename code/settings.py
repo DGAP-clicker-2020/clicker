@@ -36,12 +36,6 @@ TARGET_HP_MULTIPLIER = 6
 HAND_POWER_BONUS = 0.2
 AFK_POWER_BONUS = 0.1
 
-HAND_POWER_COST = 20
-AFK_POWER_COST = 30
-MATRESHKA_COST = 9999
-
-SND_VOLUME = 0.5
-
 TERMINATOR_FONT_PATH = os.path.join('..', 'fonts', 'terminator.ttf')
 SONICBT_FONT_PATH = os.path.join('..', 'fonts', 'SonicBT.otf')
 

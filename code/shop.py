@@ -1,73 +1,7 @@
 import ui
+import product
 from settings import *
 import music
-
-
-class Product:
-    def __init__(self, btn_x_coord, btn_y_coord, content_of_text, money_cost):
-        """
-        Сборщик класса Товар
-        :param btn_x_coord: координата x кнопки
-        :param btn_y_coord: координата y кнопки
-        :param content_of_text: описание товара
-        :param money_cost: стоимость улучшения
-        """
-        self.button = ui.Button(
-            ui.screen,
-            btn_x_coord,
-            btn_y_coord,
-            text='buy',
-            color=DEFAULT_BUTTON_COLOR,
-            hover_color=(235, 146, 37),
-            clicked_color=(213, 23, 23),
-            border_radius=5,
-            border_width=2
-        )
-        self.content_of_text = content_of_text
-        self.money_cost = money_cost
-        self.text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render(content_of_text, True, BLACK)
-        self.cost_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render("- " + str(self.money_cost) + "$",
-                                                                              True, BLACK)
-        if self.content_of_text == 'matreshka':
-            self.cost_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25).render("-" + str(self.money_cost) + "$",
-                                                                                  True, BLACK)
-
-    def draw(self):
-        """
-        Метод, отвечающий за прорисовку товара.
-        """
-        ui.screen.blit(self.text, (10, self.button.y - 5))
-        if self.content_of_text == 'matreshka':
-            ui.screen.blit(self.cost_text, (270, self.button.y - 5))
-        else:
-            ui.screen.blit(self.cost_text, (300, self.button.y - 5))
-        self.button.draw()
-
-    def manage_event(self, event, current_player):
-        """
-        Обработчик событий
-        :param event: событие
-        :param current_player: текущий игрок
-        """
-        if current_player.money >= self.money_cost:
-            self.button.color = ENOUGH_MONEY_COLOR
-            self.button.handle_event(event)
-            if self.button.clicked:
-                music.purchase_snd.play()
-                self.button.clicked = False
-                if self.content_of_text == 'afk power':
-                    current_player.afk_power += 1
-                elif self.content_of_text == 'hand power':
-                    current_player.hand_power += 1
-                elif self.content_of_text == 'matreshka':
-                    current_player.bg_snd.stop()
-                    current_player.bg_snd = music.matreshka_snd
-                    current_player.matreshka = True
-                    current_player.bg_snd.play(-1, 0, 3000)
-                current_player.money -= self.money_cost
-        else:
-            self.button.hovered = False
-            self.button.color = NOT_ENOUGH_MONEY_COLOR
 
 
 def create_shop_btn():
@@ -104,12 +38,6 @@ def shop_window(current_player):
         border_width=2
     )
 
-    afk_power = Product(440, 255, 'afk power', AFK_POWER_COST)
-    hand_power = Product(440, 295, 'hand power', HAND_POWER_COST)
-    matreshka_mode = Product(440, 335, 'matreshka', MATRESHKA_COST)
-
-    products = [afk_power, hand_power, matreshka_mode]
-
     finished = False
     clock = ui.pygame.time.Clock()
 
@@ -123,15 +51,16 @@ def shop_window(current_player):
         ui.draw_back_picture(back_pict, ui.screen)
         ui.screen.blit(hello_text, ((WINDOW_WIDTH - hello_text.get_width()) / 2, WINDOW_WIDTH / 30))
 
-        for product in products:
-            product.draw()
+        for prod in product.products:
+            prod.check_hold(current_player)
+            prod.draw()
         return_btn.draw()
 
         for event in ui.pygame.event.get():
             return_btn.handle_event(event)
 
-            for product in products:
-                product.manage_event(event, current_player)
+            for prod in product.products:
+                prod.manage_event(event, current_player)
 
             if return_btn.clicked:
                 music.pick_snd.play()

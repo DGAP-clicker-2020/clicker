@@ -61,7 +61,7 @@ def read_players_from_file():
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
                                   player_back_pict=val['player_back_pict'], total_clicks=val['total_clicks'],
-                                  total_damage=val['total_damage'], matreshka=val['matreshka']))
+                                  total_damage=val['total_damage'], hold_products=val['hold_products']))
     except (json.JSONDecodeError, FileNotFoundError, zlib.error):
         pass
     if not players:
@@ -124,7 +124,8 @@ class Player:
                  total_clicks=0,
                  total_damage=0,
                  audio_volume=50,
-                 matreshka=False,
+                 hold_products=[1, 2, 3],
+                 bg_snd=music.bg_snd
                  ):
         """
         Сборщик экземпляра класса Player
@@ -153,10 +154,9 @@ class Player:
         self.player_back_pict = player_back_pict
         self.total_clicks = total_clicks
         self.total_damage = total_damage
-        self.matreshka = matreshka
         self.audio_volume = audio_volume
-
-        self.bg_snd = music.bg_snd if not self.matreshka else music.matreshka_snd
+        self.hold_products = hold_products
+        self.bg_snd = bg_snd
 
         if self.last_player:
             self.bg_snd.play(-1, 0, 3000)
