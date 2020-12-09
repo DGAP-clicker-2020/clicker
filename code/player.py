@@ -63,7 +63,7 @@ def read_players_from_file():
                                   player_back_pict=val['player_back_pict'], total_clicks=val['total_clicks'],
                                   total_damage=val['total_damage'], hold_products=val['hold_products'],
                                   back_snd=val['back_snd']))
-    except (json.JSONDecodeError, FileNotFoundError, zlib.error):
+    except (json.JSONDecodeError, FileNotFoundError, zlib.error, KeyError):
         pass
     if not players:
         new_data, new_name = ui.change_player()
