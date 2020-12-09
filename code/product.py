@@ -35,6 +35,7 @@ class Product:
             border_width=2
         )
 
+
     def draw(self):
         """
         Метод, отвечающий за прорисовку товара.
@@ -43,12 +44,10 @@ class Product:
         self.button.draw()
 
     def check_hold(self, current_player):
+        if self.hold == True and self.type != 'boost':
+            self.button.color = YELLOW
         if self.flag in current_player.hold_products:
             self.hold = True
-        else:
-            self.hold = False
-        if self.hold and self.type != 'boost':
-            self.button.color = YELLOW
 
     def manage_event(self, event, current_player):
         """
@@ -56,7 +55,6 @@ class Product:
         :param event: событие
         :param current_player: текущий игрок
         """
-        self.check_hold(current_player)
         if current_player.money >= self.money_cost:
             self.button.color = ENOUGH_MONEY_COLOR
             self.button.handle_event(event)
@@ -69,24 +67,20 @@ class Product:
                 elif self.content_of_text == 'hand power':
                     current_player.hand_power += 1
                     current_player.money -= self.money_cost
-                elif self.type == 'music' and not self.hold:
-                    current_player.hold_products.append(self.flag)
+                elif self.type == 'music' and self.hold == False:
+                    current_player.hold_products += self.flag
                     self.hold = True
                     current_player.bg_snd.stop()
                     current_player.bg_snd = music.all_music[self.flag]
                     current_player.bg_snd.play(-1, 0, 3000)
                     current_player.money -= self.money_cost
+                elif self.type == 'music' and self.hold == True:
+                    current_player.bg_snd.stop()
+                    current_player.bg_snd = music.all_music[self.flag]
+                    current_player.bg_snd.play(-1, 0, 3000)
         else:
             self.button.hovered = False
             self.button.color = NOT_ENOUGH_MONEY_COLOR
-        if self.type == 'music' and self.hold:
-            self.button.handle_event(event)
-            if self.button.clicked:
-                self.button.clicked = False
-                music.purchase_snd.play()
-                current_player.bg_snd.stop()
-                current_player.bg_snd = music.all_music[self.flag]
-                current_player.bg_snd.play(-1, 0, 3000)
 
 
 afk_power = Product(0, 230, 'afk power', 20, 'boost', 1)
