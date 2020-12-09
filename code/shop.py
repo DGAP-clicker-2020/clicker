@@ -43,7 +43,7 @@ def shop_window(current_player):
 
     back_pict = BACK_PICTURES[current_player.player_back_pict]  # выбирает задний фон
 
-    hello_text = ui.pygame.font.Font(TERMINATOR_FONT_PATH, 45).render("SHOP", True, ORANGE)
+    hello_text = ui.render_outline("SHOP", ui.pygame.font.Font(TERMINATOR_FONT_PATH, 45), ORANGE, BLACK, 3)
 
     while not finished:
         clock.tick(FPS)
