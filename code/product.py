@@ -24,8 +24,8 @@ class Product:
 
         self.button = ui.Button(
             ui.screen,
-            self.x_coord + self.text.get_width(),
-            self.y_coord,
+            self.x_coord + self.text.get_width() + 5,
+            self.y_coord + 7,
             text='buy',
             color=DEFAULT_BUTTON_COLOR,
             hover_color=(235, 146, 37),
