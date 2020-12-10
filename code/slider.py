@@ -2,19 +2,6 @@ import pygame
 from typing import Tuple
 
 
-def slider_draw(surface, x, y, width, height, color, color_ext, slide_x, slide_y, thin):
-
-    radius = height
-    pygame.draw.rect(surface, color_ext, [x - 1, y + 1, width + 2, thin + 2])
-    pygame.draw.rect(surface, (139, 0, 255), [x, y + (height - thin) // 2, slide_x - x, thin])
-    pygame.draw.rect(surface, (128, 128, 128), [slide_x, y + (height - thin) // 2,  width - (slide_x - x), thin])
-
-    pygame.gfxdraw.aacircle(surface, int(slide_x), int(slide_y), radius + 1, color_ext)
-    pygame.gfxdraw.filled_circle(surface, int(slide_x), int(slide_y), radius + 1, color_ext)
-    pygame.gfxdraw.aacircle(surface, int(slide_x), int(slide_y), radius, color)
-    pygame.gfxdraw.filled_circle(surface, int(slide_x), int(slide_y), radius, color)
-
-
 class Slider:
     def __init__(
             self,
@@ -45,8 +32,19 @@ class Slider:
     def draw(self):
         self.handle_event()
         self.player.audio_volume = int((self.slide_x - self.x) / self.width * 100)
-        slider_draw(self.surface, self.x, self.y,  self.width, self.height, self.color, self.color_ext, self.slide_x,
-                    self.slide_y, self.thin)
+
+        radius = self.height
+        pygame.draw.rect(self.surface, self.color_ext, [self.x - 1, self.y + 1, self.width + 2, self.thin + 2])
+
+        pygame.draw.rect(self.surface, (139, 0, 255), [self.x, self.y + (self.height - self.thin) // 2,
+                                                       self.slide_x - self.x, self.thin])
+        pygame.draw.rect(self.surface, (128, 128, 128), [self.slide_x, self.y + (self.height - self.thin) // 2,
+                                                         self.width - (self.slide_x - self.x), self.thin])
+
+        pygame.gfxdraw.aacircle(self.surface, int(self.slide_x), int(self.slide_y), radius + 1, self.color_ext)
+        pygame.gfxdraw.filled_circle(self.surface, int(self.slide_x), int(self.slide_y), radius + 1, self.color_ext)
+        pygame.gfxdraw.aacircle(self.surface, int(self.slide_x), int(self.slide_y), radius, self.color)
+        pygame.gfxdraw.filled_circle(self.surface, int(self.slide_x), int(self.slide_y), radius, self.color)
 
     def handle_event(self):
         if pygame.mouse.get_pressed()[0] == 1 and self.rect.collidepoint(pygame.mouse.get_pos()):

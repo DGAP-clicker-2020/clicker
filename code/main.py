@@ -1,6 +1,7 @@
 import time
 import pygame as pg
 
+import auxiliary_functions
 import player
 import target
 import ui
@@ -33,7 +34,7 @@ def main():
     players = player.read_players_from_file()
     current_player = player.define_current_player(players)
 
-    current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
+    current_target = target.Target(hp=auxiliary_functions.calculate_hp(current_player.current_target))
 
     finished = False
 
@@ -57,7 +58,7 @@ def main():
                 change_name_btn.clicked = False
                 if new_data:
                     players, current_player = player.handle_new_data(new_name, players, current_player)
-                    current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
+                    current_target = target.Target(hp=auxiliary_functions.calculate_hp(current_player.current_target))
 
             if menu_open_btn.clicked:
                 music.pick_snd.play()
@@ -87,7 +88,7 @@ def main():
 
         if current_target.died:
             current_player.power_up()
-            current_target = target.Target(hp=target.calculate_hp(current_player.current_target))
+            current_target = target.Target(hp=auxiliary_functions.calculate_hp(current_player.current_target))
 
         pg.display.update()
 

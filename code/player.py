@@ -7,7 +7,7 @@ from random import randint
 import ui
 import music
 from settings import *
-from target import calculate_hp
+from auxiliary_functions import calculate_hp
 
 
 def handle_new_data(new_name, players, current_player):
