@@ -9,7 +9,8 @@ class Product:
         Сборщик класса Товар
         :param content_of_text: описание товара
         :param money_cost: стоимость улучшения
-        :type вид товара
+        :param type: тип товара
+        :param flag: номер товара
         """
         self.type = type
         self.hold = False
@@ -45,7 +46,9 @@ class Product:
         if self.hold and self.type != 'boost':
             self.button.color = YELLOW
             self.button.text = 'use'
-        if self.hold and self.type != 'boost' and current_player.bg_snd == music.all_music[self.flag]:
+        if self.hold and self.type == 'music' and current_player.bg_snd == music.all_music[self.flag]:
+            self.button.color = WHITE
+        if self.hold and self.type == 'background' and current_player.player_back_pict == SHOP_BACK_PICTURES[self.flag]:
             self.button.color = WHITE
         if self.flag in current_player.hold_products:
             self.hold = True
@@ -57,17 +60,22 @@ class Product:
         :param current_player: текущий игрок
         """
         if current_player.money >= self.money_cost or self.hold:
+
             self.button.color = ENOUGH_MONEY_COLOR
             self.button.handle_event(event)
+
             if self.button.clicked:
                 music.purchase_snd.play()
                 self.button.clicked = False
+
                 if self.content_of_text == 'afk power':
                     current_player.afk_power += 1
                     current_player.money -= self.money_cost
+
                 elif self.content_of_text == 'hand power':
                     current_player.hand_power += 1
                     current_player.money -= self.money_cost
+
                 elif self.type == 'music' and not self.hold:
                     current_player.hold_products.append(self.flag)
                     self.hold = True
@@ -76,11 +84,22 @@ class Product:
                     current_player.bg_snd = music.all_music[current_player.back_snd]
                     current_player.bg_snd.play(-1, 0, 3000)
                     current_player.money -= self.money_cost
+
                 elif self.type == 'music' and self.hold:
                     current_player.bg_snd.stop()
                     current_player.back_snd = self.flag
                     current_player.bg_snd = music.all_music[current_player.back_snd]
                     current_player.bg_snd.play(-1, 0, 3000)
+
+                elif self.type == 'background' and not self.hold:
+                    current_player.hold_products.append(self.flag)
+                    self.hold = True
+                    current_player.player_back_pict = SHOP_BACK_PICTURES[self.flag]
+                    current_player.money -= self.money_cost
+
+                elif self.type == 'background' and self.hold:
+                    current_player.player_back_pict = SHOP_BACK_PICTURES[self.flag]
+
         else:
             self.button.hovered = False
             self.button.color = NOT_ENOUGH_MONEY_COLOR
@@ -92,5 +111,18 @@ def_snd = Product('def_sound', 0, 'music', 3)
 minecraft_1_snd = Product('minecraft_1', 100, 'music', 4)
 minecraft_2_snd = Product('minecraft_2', 200, 'music', 5)
 matreshka_snd = Product('matreshka', 9999, 'music', 6)
+kpm_background = Product('kpm_picture', 0, 'background', 7)
+bio_background = Product('bio_picture', 300, 'background', 8)
+nk_background = Product('nk_picture', 5000, 'background', 9)
 
-products = [afk_power, hand_power, def_snd, minecraft_1_snd, minecraft_2_snd, matreshka_snd]
+products = [
+    afk_power,
+    hand_power,
+    def_snd,
+    minecraft_1_snd,
+    minecraft_2_snd,
+    matreshka_snd,
+    kpm_background,
+    bio_background,
+    nk_background,
+]

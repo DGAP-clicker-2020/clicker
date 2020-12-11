@@ -143,7 +143,7 @@ class Player:
         :param money: колличество денег
         """
         if hold_products is None:
-            hold_products = [3]
+            hold_products = [3, 7]
         self.name = name
         self.id_num = id_num
         self.hand_power = hand_power

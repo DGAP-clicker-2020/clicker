@@ -41,13 +41,12 @@ def shop_window(current_player):
     finished = False
     clock = ui.pygame.time.Clock()
 
-    back_pict = BACK_PICTURES[current_player.player_back_pict]  # выбирает задний фон
-
     hello_text = ui.render_outline("SHOP", ui.pygame.font.Font(TERMINATOR_FONT_PATH, 45), ORANGE, BLACK, 3)
 
     while not finished:
         clock.tick(FPS)
 
+        back_pict = BACK_PICTURES[current_player.player_back_pict]  # обновляет задний фон
         ui.draw_back_picture(back_pict, ui.screen)
         ui.screen.blit(hello_text, ((WINDOW_WIDTH - hello_text.get_width()) / 2, WINDOW_WIDTH / 30))
 

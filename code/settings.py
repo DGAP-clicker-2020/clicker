@@ -39,7 +39,9 @@ AFK_POWER_BONUS = 0.1
 TERMINATOR_FONT_PATH = os.path.join('..', 'fonts', 'terminator.ttf')
 SONICBT_FONT_PATH = os.path.join('..', 'fonts', 'SonicBT.otf')
 
-BACK_PICTURES = ['kpm_1.jpg', 'nk_1.jpg', 'bio_1.jpg', 'mipt_logo.jpg']  # массив с названием картинок заднего фона
+BACK_PICTURES = ['kpm_1.jpg', 'bio_1.jpg', 'nk_1.jpg', 'mipt_logo.jpg']  # массив с названием картинок заднего фона
+
+SHOP_BACK_PICTURES = {num + 7: pic for num, pic in enumerate(BACK_PICTURES)}
 
 BACK_PICTURES = {pic: os.path.join('..', 'back_pictures', pic) for pic in BACK_PICTURES}
 
