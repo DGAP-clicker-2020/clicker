@@ -64,9 +64,21 @@ class Product:
             self.button.color = ENOUGH_MONEY_COLOR
             self.button.handle_event(event)
 
-            if self.button.clicked:
+            if self.button.right_clicked and current_player.money >= 10 * self.money_cost:
                 music.purchase_snd.play()
-                self.button.clicked = False
+                self.button.right_clicked = False
+
+                if self.content_of_text == 'afk power':
+                    current_player.afk_power += 10
+                    current_player.money -= 10 * self.money_cost
+
+                elif self.content_of_text == 'hand power':
+                    current_player.hand_power += 10
+                    current_player.money -= 10 * self.money_cost
+
+            if self.button.left_clicked:
+                music.purchase_snd.play()
+                self.button.left_clicked = False
 
                 if self.content_of_text == 'afk power':
                     current_player.afk_power += 1

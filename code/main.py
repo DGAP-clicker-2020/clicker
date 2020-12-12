@@ -52,22 +52,22 @@ def main():
             menu_open_btn.handle_event(event)
             shop_open_btn.handle_event(event)
 
-            if change_name_btn.clicked:
+            if change_name_btn.left_clicked:
                 music.pick_snd.play()
                 new_data, new_name = ui.change_player()
-                change_name_btn.clicked = False
+                change_name_btn.left_clicked = False
                 if new_data:
                     players, current_player = player.handle_new_data(new_name, players, current_player)
                     current_target = target.Target(hp=auxiliary_functions.calculate_hp(current_player.current_target))
 
-            if menu_open_btn.clicked:
+            if menu_open_btn.left_clicked:
                 music.pick_snd.play()
-                menu_open_btn.clicked = False
+                menu_open_btn.left_clicked = False
                 menu.menu_window(current_player)
 
-            if shop_open_btn.clicked:
+            if shop_open_btn.left_clicked:
                 music.pick_snd.play()
-                shop_open_btn.clicked = False
+                shop_open_btn.left_clicked = False
                 shop.shop_window(current_player)
 
             if event.type == pg.QUIT:

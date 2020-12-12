@@ -94,7 +94,8 @@ class Button:
         self.font_color = font_color or (0, 0, 0)
 
         self.hovered = False
-        self.clicked = False
+        self.left_clicked = False
+        self.right_clicked = False
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def __repr__(self):
@@ -105,7 +106,7 @@ class Button:
 
     def draw(self):
         color = self.color
-        if self.clicked and self.clicked_color:
+        if self.left_clicked and self.clicked_color:
             color = self.clicked_color
         elif self.hovered and self.hover_color:
             color = self.hover_color
@@ -127,10 +128,16 @@ class Button:
     def handle_event(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.hovered = event.pos in self
-        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and event.pos in self:
-            self.clicked = True
-        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            self.clicked = False
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.pos in self:
+            if event.button == 1:
+                self.left_clicked = True
+            if event.button == 3:
+                self.right_clicked = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                self.left_clicked = False
+            if event.button == 3:
+                self.right_clicked = False
 
     def handle_events(self, event_list):
         for event in event_list:

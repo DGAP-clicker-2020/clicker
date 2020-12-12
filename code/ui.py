@@ -53,7 +53,7 @@ def show_offline_income(money_earned, offline_time):
         cancel_btn.draw()
         for event in pygame.event.get():
             cancel_btn.handle_event(event)
-            if cancel_btn.clicked:
+            if cancel_btn.left_clicked:
                 finished = True
                 music.pick_snd.play()
             if event.type == pygame.QUIT:
@@ -96,7 +96,7 @@ def change_player():
         cancel_btn.draw()
         for event in pygame.event.get():
             cancel_btn.handle_event(event)
-            if cancel_btn.clicked:
+            if cancel_btn.left_clicked:
                 finished = True
                 new_data = False
                 music.pick_snd.play()

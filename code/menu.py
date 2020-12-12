@@ -68,7 +68,7 @@ def menu_window(current_player):
         music.set_all_volume(music.all_sounds, current_player.audio_volume)
         for event in ui.pygame.event.get():
             return_btn.handle_event(event)
-            if return_btn.clicked:
+            if return_btn.left_clicked:
                 music.pick_snd.play()
                 finished = True
             if event.type == ui.pygame.QUIT:

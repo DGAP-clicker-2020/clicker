@@ -61,7 +61,7 @@ def shop_window(current_player):
             for prod in product.products:
                 prod.manage_event(event, current_player)
 
-            if return_btn.clicked:
+            if return_btn.left_clicked:
                 music.pick_snd.play()
                 finished = True
 
