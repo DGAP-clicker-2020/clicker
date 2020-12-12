@@ -46,7 +46,7 @@ def shop_window(current_player):
     while not finished:
         clock.tick(FPS)
 
-        back_pict = BACK_PICTURES[current_player.player_back_pict]  # обновляет задний фон
+        back_pict = BACK_PICTURES['KSP.jpg']  # обновляет задний фон
         ui.draw_back_picture(back_pict, ui.screen)
         ui.screen.blit(hello_text, ((WINDOW_WIDTH - hello_text.get_width()) / 2, WINDOW_WIDTH / 30))
 

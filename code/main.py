@@ -75,15 +75,17 @@ def main():
 
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 if current_target.check_click(event):
-                    current_target.hurt(current_player.hand_power)
+                    current_target.hurt(current_player.hand_power, current_player.critical_chance,
+                                        current_player.critical_multiplier)
                     current_player.total_clicks += 1
                     current_player.total_damage += current_player.hand_power
 
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                current_target.hurt(current_player.hand_power)
+                current_target.hurt(current_player.hand_power, current_player.critical_chance,
+                                    current_player.critical_multiplier)
                 current_target.hit_snd.play()
 
-        current_target.hurt(current_player.afk_power / FPS)
+        current_target.afk_hurt(current_player.afk_power / FPS)
         current_player.total_damage += current_player.afk_power / FPS
 
         if current_target.died:

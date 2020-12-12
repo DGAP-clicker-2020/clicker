@@ -4,6 +4,7 @@ from pygame import gfxdraw
 
 from settings import *
 from ui import large_font
+import ui
 import music
 import auxiliary_functions as func
 
@@ -29,6 +30,7 @@ class Target:
         self.died = False  # флаг смерти
         self.kill_snd = music.kill_snd
         self.hit_snd = music.hit_snd
+        self.crit_snd = music.crit_snd
 
     def check_click(self, event):
         """
@@ -44,10 +46,32 @@ class Target:
         else:
             return False
 
-    def hurt(self, power):
+    def hurt(self, power, crit_chance, crit_multi):
         """
-        Обрабатывает нанесение урона цели
+        Обрабатывает нанесение урона цели с учетом шанса крита
         :param power: сила урона
+        :param crit_chance: шанс крита
+        :param crit: множитель урона
+        """
+        damage_txt = ui.render_outline('DAMAGE' + str(power), ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13), RED, BLACK, 1)
+        crit_txt = ui.render_outline('CRIT', ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25), RED, BLACK, 1)
+        chance = randint(0, 100)
+        if chance >= crit_chance:
+            self.hp -= power
+            ui.screen.blit(damage_txt, (randint(300, 400), randint(300, 500)))
+        else:
+            self.hp -= power * crit_multi
+            self.crit_snd.play()
+            print('CRIT x' + str(crit_multi))
+            ui.screen.blit(crit_txt, (200, 250))
+        self.r = RADIUS + DR * self.hp / self.max_hp
+        self.check_died()
+
+    def afk_hurt(self, power):
+        """
+        Обрабатывает нанесение афк урона цели
+        :param power: сила урона
+
         """
         self.hp -= power
         self.r = RADIUS + DR * self.hp / self.max_hp

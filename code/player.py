@@ -57,6 +57,8 @@ def read_players_from_file():
             new_dict = json.loads(data)
         for val in new_dict.values():
             players.append(Player(name=val['name'], id_num=val['id_num'], hand_power=val['hand_power'],
+                                  critical_multiplier=val['critical_multiplier'],
+                                  critical_chance=val['critical_chance'],
                                   last_player=val['last_player'], current_target=val['current_target'],
                                   current_target_level=val['current_target_level'],
                                   afk_power=val['afk_power'], money=val['money'], last_login=val['last_login'],
@@ -117,8 +119,10 @@ class Player:
                  last_player=False,
                  current_target=0,
                  current_target_level=1,
+                 critical_multiplier=1,
+                 critical_chance=0,
                  afk_power=0,
-                 money=0,
+                 money=10000,
                  last_login=int(time.time()),
                  new_login=int(time.time()),
                  player_back_pict='kpm_1.jpg',
@@ -148,6 +152,8 @@ class Player:
         self.id_num = id_num
         self.hand_power = hand_power
         self.afk_power = afk_power
+        self.critical_multiplier = critical_multiplier
+        self.critical_chance = critical_chance
         self.last_player = last_player
         self.current_target = current_target
         self.current_target_level = current_target_level
@@ -183,7 +189,7 @@ class Player:
         """
         dic = self.__dict__
         count = 0
-        for key in ['name', 'afk_power', 'hand_power', 'current_target', 'money', 'total_clicks', 'total_damage',
+        for key in ['name', 'afk_power', 'hand_power', 'critical_multiplier', 'critical_chance', 'current_target', 'money', 'total_clicks', 'total_damage',
                     'audio_volume']:
             if key == 'total_damage':
                 text = ui.render_outline(str(key) + ': ' + str(format(dic[key], '.2e')), ui.lower_font, CYAN, BLACK, 1)
