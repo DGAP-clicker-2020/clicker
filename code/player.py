@@ -122,7 +122,7 @@ class Player:
                  critical_multiplier=2,
                  critical_chance=0,
                  afk_power=0,
-                 money=10000,
+                 money=0,
                  last_login=int(time.time()),
                  new_login=int(time.time()),
                  player_back_pict='kpm_1.jpg',
