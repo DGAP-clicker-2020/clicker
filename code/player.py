@@ -4,9 +4,9 @@ import time
 import zlib
 from random import randint
 
+from settings import *
 import ui
 import music
-from settings import *
 from auxiliary_functions import calculate_hp
 
 
@@ -19,20 +19,24 @@ def handle_new_data(new_name, players, current_player):
     :return: возвращает изменённый список игроков и текущего игрока
     """
     current_player.bg_snd.stop()
+
     current_player.last_player = False
     really_new_player = True
+
     for pl in players:
         if new_name.lower() == pl.name.lower():
             current_player = pl
             current_player.last_player = True
             current_player.calculate_offline_money()
             really_new_player = False
+
     if really_new_player:
         if new_name == '':
             current_player = Player
         else:
             current_player = Player(name=new_name, last_player=True)
         players.append(current_player)
+
     current_player.bg_snd.play(-1, 0, 3000)
     return players, current_player
 
@@ -44,6 +48,7 @@ def read_players_from_file():
     :return: список игроков
     """
     players = []
+
     try:
         if DEBUG_FLAG:
             file = open('players.json', 'r')
@@ -67,12 +72,14 @@ def read_players_from_file():
                                   back_snd=val['back_snd']))
     except (json.JSONDecodeError, FileNotFoundError, zlib.error, KeyError):
         pass
+
     if not players:
         new_data, new_name = ui.change_player()
         if not new_data:
             players.append(Player(name='Sample Name', last_player=True))
         else:
             players.append(Player(name=new_name, last_player=True))
+
     return players
 
 
@@ -94,9 +101,12 @@ def write_players_to_file(players):
     """
     for pl in players:
         pl.bg_snd = None
+
     dic = {}
+
     for count, pl in enumerate(players):
         dic[count] = pl.__dict__
+
     if not DEBUG_FLAG:
         dic = json.dumps(dic, indent='    ')
         dic = zlib.compress(dic.encode('utf-8'))
@@ -134,6 +144,13 @@ class Player:
                  ):
         """
         Сборщик экземпляра класса Player
+        :param critical_multiplier: множитель критического урона
+        :param critical_chance: шанс критического урона
+        :param total_clicks: общее коллическтво кликов
+        :param total_damage: общее колличество урона
+        :param audio_volume: громкость звуков
+        :param hold_products: список купленных товаров
+        :param back_snd: музыка на заднем фоне
         :param current_target: колличество убитых целей
         :param last_login: последнее время захода в игру, обновляется после выхода из игры
         :param new_login: время, обновляющееся после захода игру
@@ -217,6 +234,7 @@ class Player:
         offline_time = self.new_login - self.last_login
         damage = offline_time * self.afk_power
         self.total_damage += damage
+
         while True:
             hp = calculate_hp(self.current_target)
             if damage > hp:

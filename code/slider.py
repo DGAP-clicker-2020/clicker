@@ -15,7 +15,18 @@ class Slider:
             color_ext: Tuple[int] = None,
             player=None
     ):
-
+        """
+        Сборщик класса Slider
+        :param surface: поверхность для прорисовки
+        :param x: координата x левого конца слайдера
+        :param y: координата y левого конца слайдера
+        :param width: ширина слайдера
+        :param height: высота слайдера
+        :param thin: толщина полосочки слайдера
+        :param color: цвет ползунка
+        :param color_ext: цвет полосочки
+        :param player: игрок
+        """
         self.surface = surface
         self.x = x
         self.y = y
@@ -30,6 +41,9 @@ class Slider:
         self.slide_y = self.y + self.height // 2
 
     def draw(self):
+        """
+        Метод отвечает за прорисовку слайдера
+        """
         self.handle_event()
         self.player.audio_volume = int((self.slide_x - self.x) / self.width * 100)
 
@@ -47,6 +61,9 @@ class Slider:
         pygame.gfxdraw.filled_circle(self.surface, int(self.slide_x), int(self.slide_y), radius, self.color)
 
     def handle_event(self):
+        """
+        Обработчик событий слайдера
+        """
         if pygame.mouse.get_pressed()[0] == 1 and self.rect.collidepoint(pygame.mouse.get_pos()):
             self.slide_x = pygame.mouse.get_pos()[0]
             if self.slide_x < self.x:

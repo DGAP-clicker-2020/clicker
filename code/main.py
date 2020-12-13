@@ -28,6 +28,8 @@ def main():
     Главная функция. Делает всё(почти).
     """
     clock = pg.time.Clock()
+    pygame.display.set_caption('MIPT clicker')
+
     change_name_btn = ui.create_change_name_btn()
     menu_open_btn = menu.create_menu_btn()
     shop_open_btn = shop.create_shop_btn()

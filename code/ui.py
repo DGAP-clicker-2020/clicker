@@ -19,6 +19,11 @@ def draw_back_picture(name, surface):
 
 
 def show_offline_income(money_earned, offline_time):
+    """
+    Функция отвечает за отображение оффлайн дохода после возвращения игрока в игру
+    :param money_earned: колличество заработанных денег
+    :param offline_time: время в оффлайне
+    """
     cancel_btn = Button(
         screen,
         5,
@@ -135,7 +140,10 @@ def create_change_name_btn():
     )
 
 
-def _circlepoints(r):  # отвечает за обвод текста
+def _circlepoints(r):
+    """
+    Функция отвечает за обводку текста
+    """
     _circle_cache = {}
     r = int(round(r))
     if r in _circle_cache:
@@ -157,13 +165,14 @@ def _circlepoints(r):  # отвечает за обвод текста
     return points
 
 
-def render_outline(text, font, def_color, ext_color, opx):  # рисует текст с обводкой
+def render_outline(text, font, def_color, ext_color, opx):
     """
-        type text: string
-        type font: string
-        type def_color(внутренний цвет): RGB
-        type ext_color(цвет обводки): RGB
-        type opx(толщина обводки): int
+    Функция отвечает за прорисовку обводки текста
+    :type text: string
+    :type font: string
+    :type def_color: RGB (внутренний цвет обваодки)
+    :type ext_color: RGB (внешний цвет обводки)
+    :type opx: int (толщина обводки)
     """
     text_surface = font.render(text, True, def_color).convert_alpha()
     w = text_surface.get_width() + 2 * opx
@@ -184,6 +193,16 @@ def render_outline(text, font, def_color, ext_color, opx):  # рисует те�
 
 
 def show_money(money, font, size, def_color, ext_color, x_cord, y_cord):
+    """
+    Фукция отвечает за отображение денег на экране
+    :param money: колличество денег
+    :param font: шрифт
+    :param size: размер шрифта
+    :param def_color: внутренний цвет
+    :param ext_color: внешний цвет
+    :param x_cord: координата x
+    :param y_cord: координата y
+    """
     current_money_text = render_outline(str(money), pygame.font.Font(font, size), def_color, ext_color, size / 20)
     dollar_text = render_outline('$', pygame.font.Font(font, size), def_color, ext_color, size / 20)
 

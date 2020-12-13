@@ -53,24 +53,32 @@ def menu_window(current_player):
 
     hello_text = ui.render_outline("MENU", ui.pygame.font.Font(TERMINATOR_FONT_PATH, 45), ORANGE, BLACK, 3)
     audio_text = ui.render_outline("AUDIO VOLUME", ui.pygame.font.Font(SONICBT_FONT_PATH, 35), WHITE, BLACK, 2)
+
     clock = ui.pygame.time.Clock()
+
     back_pict = BACK_PICTURES[current_player.player_back_pict]  # выбирает задний фон
+
     finished = False
 
     while not finished:
         clock.tick(FPS)
-        ui.screen.fill(BLACK)
+
         ui.draw_back_picture(back_pict, ui.screen)
         ui.screen.blit(hello_text, ((WINDOW_WIDTH - hello_text.get_width()) / 2, WINDOW_WIDTH / 30))
         ui.screen.blit(audio_text, ((WINDOW_WIDTH - audio_text.get_width()) / 2, 150 - audio_text.get_height()))
         return_btn.draw()
         volume_slider.draw()
+
         music.set_all_volume(music.all_sounds, current_player.audio_volume)
+
         for event in ui.pygame.event.get():
+
             return_btn.handle_event(event)
+
             if return_btn.left_clicked:
                 music.pick_snd.play()
                 finished = True
+
             if event.type == ui.pygame.QUIT:
                 finished = True
 

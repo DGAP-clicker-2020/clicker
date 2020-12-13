@@ -24,7 +24,7 @@ def create_shop_btn():
 
 def shop_window(current_player):
     """
-    Функция для вывода меню
+    Функция для вывода магазина
     """
     return_btn = ui.Button(
         ui.screen,

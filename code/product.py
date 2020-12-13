@@ -43,6 +43,10 @@ class Product:
         self.button.draw()
 
     def check_hold(self, current_player):
+        """
+        Метод проверяет, есть ли у текущего игрока товары из магазина
+        :param current_player: текущий игрок
+        """
         if self.hold and self.type != 'boost':
             self.button.color = YELLOW
             self.button.text = 'use'
@@ -135,8 +139,8 @@ class Product:
 
 afk_power = Product('afk power', 20, 'boost', 1)
 hand_power = Product('hand power', 30, 'boost', 2)
-critical_chance = Product('crit chance', 500, 'boost', 3)
-critical_multiplier = Product('crit multi', 500, 'boost', 4)
+critical_chance = Product('crit chance', 400, 'boost', 3)
+critical_multiplier = Product('crit multi', 400, 'boost', 4)
 
 def_snd = Product('def_sound', 0, 'music', 5)
 minecraft_1_snd = Product('minecraft_1', 100, 'music', 6)
