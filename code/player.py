@@ -228,7 +228,7 @@ class Player:
 
     def calculate_offline_money(self):
         """
-        Метод начисляет игроку деньги за время, проведённоен вне игры
+        Метод начисляет игроку деньги за время, проведённое вне игры
         """
         initial_money = self.money
         offline_time = self.new_login - self.last_login
