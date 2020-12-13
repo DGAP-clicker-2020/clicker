@@ -130,7 +130,7 @@ class Player:
                  total_damage=0,
                  audio_volume=50,
                  hold_products=None,
-                 back_snd=3
+                 back_snd=5
                  ):
         """
         Сборщик экземпляра класса Player
@@ -147,7 +147,7 @@ class Player:
         :param money: колличество денег
         """
         if hold_products is None:
-            hold_products = [3, 7]
+            hold_products = [5, 9]
         self.name = name
         self.id_num = id_num
         self.hand_power = hand_power

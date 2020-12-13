@@ -44,7 +44,7 @@ SONICBT_FONT_PATH = os.path.join('..', 'fonts', 'SonicBT.otf')
 
 BACK_PICTURES = ['kpm_1.jpg', 'bio_1.jpg', 'nk_1.jpg', 'mipt_logo.jpg', 'KSP.jpg']
 
-SHOP_BACK_PICTURES = {num + 7: pic for num, pic in enumerate(BACK_PICTURES)}
+SHOP_BACK_PICTURES = {num + 9: pic for num, pic in enumerate(BACK_PICTURES)}
 
 BACK_PICTURES = {pic: os.path.join('..', 'back_pictures', pic) for pic in BACK_PICTURES}
 
