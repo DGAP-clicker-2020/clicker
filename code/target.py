@@ -8,60 +8,6 @@ import music
 import auxiliary_functions as func
 
 
-class DamageText:
-    def __init__(self,
-                 text_info,
-                 power,
-                 x=randint(300, 400),
-                 y=randint(300, 500),
-                 color=RED,
-                 font=TERMINATOR_FONT_PATH,
-                 scale=13,
-                 ):
-        """
-        Сборщик класса DamageText
-        :param text_info: информация в надписи
-        :param power: сила урона
-        :param x: координата x
-        :param y: координата y
-        :param color: цвет
-        :param font: шрифт
-        :param scale: размер текста
-        """
-        self.text_info = text_info
-        self.power = power
-        self.x = x
-        self.y = y
-        self.color = color
-        self.font = font
-        self.scale = scale
-        self.count = 0
-        self.die = False
-
-        if self.power == 'crit':
-            self.text = ui.render_outline(self.text_info,
-                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 30), self.color, BLACK, 1)
-            self.x = 160
-            self.y = 200
-
-        elif self.text_info is not None:
-            self.text = ui.render_outline(self.text_info + ' ' + str(self.power),
-                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13), self.color, BLACK, 1)
-        else:
-            self.text = ui.render_outline('', ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13),
-                                          self.color, BLACK, 1)
-
-    def draw(self):
-        if not self.die:
-            ui.screen.blit(self.text, (self.x, self.y))
-            self.count += 1
-            self.check_die()
-
-    def check_die(self):
-        if self.count >= FPS * TEXT_LIVE_TIME:
-            self.die = True
-
-
 class Target:
     def __init__(self,
                  x=WINDOW_WIDTH // 2,
@@ -185,6 +131,66 @@ class Target:
                                  Y_INDENT + (HEALTH_BAR_HEIGHT - hp_text_2.get_height()) / 2))
         surface.blit(hp_text_3, (X_INDENT + (HEALTH_BAR_WIDTH + hp_text_2.get_width()) / 2,
                                  Y_INDENT + (HEALTH_BAR_HEIGHT - hp_text_3.get_height()) / 2))
+
+
+class DamageText:
+    def __init__(self,
+                 text_info,
+                 power,
+                 x=randint(300, 400),
+                 y=randint(300, 500),
+                 color=RED,
+                 font=TERMINATOR_FONT_PATH,
+                 scale=13,
+                 ):
+        """
+        Сборщик класса DamageText
+        :param text_info: информация в надписи
+        :param power: сила урона
+        :param x: координата x
+        :param y: координата y
+        :param color: цвет
+        :param font: шрифт
+        :param scale: размер текста
+        """
+        self.text_info = text_info
+        self.power = power
+        self.x = x
+        self.y = y
+        self.color = color
+        self.font = font
+        self.scale = scale
+        self.count = 0
+        self.die = False
+
+        if self.power == 'crit':
+            self.text = ui.render_outline(self.text_info,
+                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 30), self.color, BLACK, 1)
+            self.x = 160
+            self.y = 200
+
+        elif self.text_info is not None:
+            self.text = ui.render_outline(self.text_info + ' ' + str(self.power),
+                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13), self.color, BLACK, 1)
+        else:
+            self.text = ui.render_outline('', ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13),
+                                          self.color, BLACK, 1)
+
+    def draw(self):
+        """
+        Метод отвечает за прорисовку текста урона
+        """
+        if not self.die:
+            ui.screen.blit(self.text, (self.x, self.y))
+            self.count += 1
+            self.check_die()
+
+    def check_die(self):
+        """
+        Метод отвечает за проверку, прошло ли время жизми текста урона
+        """
+        if self.count >= FPS * TEXT_LIVE_TIME:
+            self.die = True
 
 
 if __name__ == '__main__':
