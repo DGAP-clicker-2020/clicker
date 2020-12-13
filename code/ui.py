@@ -1,5 +1,3 @@
-import pygame
-
 import music
 from button import Button
 from settings import *

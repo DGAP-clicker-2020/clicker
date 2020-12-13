@@ -119,7 +119,7 @@ class Player:
                  last_player=False,
                  current_target=0,
                  current_target_level=1,
-                 critical_multiplier=1,
+                 critical_multiplier=2,
                  critical_chance=0,
                  afk_power=0,
                  money=10000,
@@ -189,8 +189,18 @@ class Player:
         """
         dic = self.__dict__
         count = 0
-        for key in ['name', 'afk_power', 'hand_power', 'critical_multiplier', 'critical_chance', 'current_target', 'money', 'total_clicks', 'total_damage',
-                    'audio_volume']:
+        for key in [
+            'name',
+            'afk_power',
+            'hand_power',
+            'critical_multiplier',
+            'critical_chance',
+            'current_target',
+            'money',
+            'total_clicks',
+            'total_damage',
+            'audio_volume'
+        ]:
             if key == 'total_damage':
                 text = ui.render_outline(str(key) + ': ' + str(format(dic[key], '.2e')), ui.lower_font, CYAN, BLACK, 1)
             else:

@@ -1,9 +1,5 @@
 from pygame.draw import *
-from random import choice
-from pygame import gfxdraw
-import pygame
-import os
-import random
+from random import choice, randint
 
 from settings import *
 from ui import large_font
@@ -12,6 +8,58 @@ import music
 import auxiliary_functions as func
 
 
+class DamageText:
+    def __init__(self,
+                 text_info,
+                 power,
+                 x=randint(300, 400),
+                 y=randint(300, 500),
+                 color=RED,
+                 font=TERMINATOR_FONT_PATH,
+                 scale=13,
+                 ):
+        """
+        Сборщик класса DamageText
+        :param text_info: информация в надписи
+        :param power: сила урона
+        :param x: координата x
+        :param y: координата y
+        :param color: цвет
+        :param font: шрифт
+        :param scale: размер текста
+        """
+        self.text_info = text_info
+        self.power = power
+        self.x = x
+        self.y = y
+        self.color = color
+        self.font = font
+        self.scale = scale
+        self.count = 0
+        self.die = False
+
+        if self.power == 'crit':
+            self.text = ui.render_outline(self.text_info,
+                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 15), self.color, BLACK, 1)
+            self.x = 190
+            self.y = 200
+
+        elif self.text_info is not None:
+            self.text = ui.render_outline(self.text_info + ' ' + str(self.power),
+                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13), self.color, BLACK, 1)
+        else:
+            self.text = ui.render_outline('', ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13),
+                                          self.color, BLACK, 1)
+
+    def draw(self):
+        if not self.die:
+            ui.screen.blit(self.text, (self.x, self.y))
+            self.count += 1
+            self.check_die()
+
+    def check_die(self):
+        if self.count >= 120:
+            self.die = True
 
 
 class Target:
@@ -21,7 +69,8 @@ class Target:
                  r=RADIUS + DR,
                  scale=1,
                  size_rect=target1_surf.get_rect(center=(250, 400)),
-                 hp=10, ):
+                 hp=10,
+                 ):
         """
         Сборщик класса Target
         :param x: координата центра x
@@ -42,6 +91,7 @@ class Target:
         self.size_rect = size_rect
         self.pic = pic = choice(pics)
         self.size = pic
+        self.damage_text = DamageText(None, None)
 
     def check_click(self, event):
         """
@@ -50,13 +100,15 @@ class Target:
         :param event: pygame event
         :return: True или False в зависимости от попадания по цели
         """
-        #if (event.pos[0] - self.x) ** 2 + (event.pos[1] - self.y) ** 2 < int(self.r) ** 2:
-
-        if (event.pos[0] >= self.x - 100 + self.scale
-                and event.pos[0] <= self.x + 100 - self.scale
-                and event.pos[1] >= self.y - 150 + 1.5 * self.scale
-                and event.pos[1] <= self.y + 150 - 1.5 * self.scale):
-
+        if (
+                self.x - 100 + round(12 * self.scale / (12 + self.scale))
+                <= event.pos[0] <=
+                self.x + 100 - round(12 * self.scale / (12 + self.scale))
+                and
+                self.y - 150 + round(18 * self.scale / (12 + self.scale))
+                <= event.pos[1] <=
+                self.y + 150 - round(18 * self.scale / (12 + self.scale))
+        ):
             self.hit_snd.play()
             return True
 
@@ -70,35 +122,28 @@ class Target:
         :param crit_chance: шанс крита
         :param crit_multi: множитель урона
         """
-        damage_txt = ui.render_outline('DAMAGE' + str(power), ui.pygame.font.Font(TERMINATOR_FONT_PATH, 13), RED, BLACK, 1)
-        crit_txt = ui.render_outline('CRIT', ui.pygame.font.Font(TERMINATOR_FONT_PATH, 25), RED, BLACK, 1)
         chance = randint(0, 100)
         if chance >= crit_chance:
             self.hp -= power
-            ui.screen.blit(damage_txt, (randint(300, 400), randint(300, 500)))
+            self.damage_text = DamageText('DAMAGE', power, x=randint(100, 300), y=randint(300, 600))
         else:
             self.hp -= power * crit_multi
             self.crit_snd.play()
-            print('CRIT x' + str(crit_multi))
-            ui.screen.blit(crit_txt, (200, 200))
-        #self.r = RADIUS + DR * self.hp / self.max_hp
+            self.damage_text = DamageText('CRIT x' + str(crit_multi), 'crit')
         self.scale += 1
-        if self.scale <= 12:
-            self.size = pygame.transform.scale(self.pic, (
-            200 - 2*self.scale, 300 - 3*self.scale))
-            self.size_rect = self.size.get_rect(center=(250, 400))
+        self.size = pygame.transform.scale(self.pic, (
+            200 - round(24 * self.scale / (12 + self.scale)), 300 - round(36 * self.scale / (12 + self.scale))))
+        self.size_rect = self.size.get_rect(center=(250, 400))
 
         self.check_died()
 
-    def afk_hurt(self, power):  # добавил функцию отдельно, чтобы не учитывать криты и чтобы
-                                                                            # объект уменьшался только когда его бьют
+    def afk_hurt(self, power):
         """
         Обрабатывает нанесение афк урона цели
         :param power: сила урона
 
         """
         self.hp -= power
-        #self.r = RADIUS + DR * self.hp / self.max_hp
         self.check_died()
 
     def check_died(self):
@@ -115,8 +160,6 @@ class Target:
         :param surface: экран
         """
         surface.blit(self.size, self.size_rect)
-        #gfxdraw.aacircle(surface, int(self.x), int(self.y), int(self.r), self.color)  # сглаженный круг
-        #gfxdraw.filled_circle(surface, int(self.x), int(self.y), int(self.r), self.color)
         self.draw_hp_bar(surface)
 
     def draw_hp_bar(self, surface):

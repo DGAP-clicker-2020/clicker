@@ -1,7 +1,7 @@
 import ui
 import music
 from settings import *
-from player import *
+
 
 class Product:
     def __init__(self, content_of_text, money_cost, type, flag):
@@ -75,6 +75,14 @@ class Product:
 
                 elif self.content_of_text == 'hand power':
                     current_player.hand_power += 10
+                    current_player.money -= 10 * self.money_cost
+
+                elif self.content_of_text == 'crit chance':
+                    current_player.critical_chance += 10
+                    current_player.money -= 10 * self.money_cost
+
+                elif self.content_of_text == 'crit multi':
+                    current_player.critical_multiplier += 10
                     current_player.money -= 10 * self.money_cost
 
             if self.button.left_clicked:

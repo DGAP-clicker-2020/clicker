@@ -17,6 +17,7 @@ def draw_objects(current_player, current_target, change_name_btn, menu_open_btn,
     """
     ui.draw_back_picture(BACK_PICTURES[current_player.player_back_pict], ui.screen)
     current_target.draw(ui.screen)
+    current_target.damage_text.draw()
     change_name_btn.draw()
     menu_open_btn.draw()
     shop_open_btn.draw()
