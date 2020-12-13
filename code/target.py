@@ -58,7 +58,7 @@ class DamageText:
             self.check_die()
 
     def check_die(self):
-        if self.count >= 120:
+        if self.count >= FPS * TEXT_LIVE_TIME:
             self.die = True
 
 
