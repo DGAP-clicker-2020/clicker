@@ -1,4 +1,5 @@
 import os
+import pygame
 from random import randint
 
 FPS = 60
@@ -45,6 +46,15 @@ BACK_PICTURES = ['kpm_1.jpg', 'bio_1.jpg', 'nk_1.jpg', 'mipt_logo.jpg', 'KSP.jpg
 SHOP_BACK_PICTURES = {num + 7: pic for num, pic in enumerate(BACK_PICTURES)}
 
 BACK_PICTURES = {pic: os.path.join('..', 'back_pictures', pic) for pic in BACK_PICTURES}
+
+target1_surf = pygame.image.load(os.path.join('..', 'target_pics', 'fizika.jpg'))
+target2_surf = pygame.image.load(os.path.join('..', 'target_pics', 'animatronik.jpg'))
+target3_surf = pygame.image.load(os.path.join('..', 'target_pics', 'matan1.jpg'))
+target4_surf = pygame.image.load(os.path.join('..', 'target_pics', 'analit.jpg'))
+target5_surf = pygame.image.load(os.path.join('..', 'target_pics', 'labnik.jpg'))
+
+pics = [target1_surf, target2_surf, target3_surf, target4_surf, target5_surf]
+target1_rect = target1_surf.get_rect(center=(250, 400))
 
 if __name__ == '__main__':
     print('This module is not for direct run!')
