@@ -51,8 +51,9 @@ target2_surf = pygame.image.load(os.path.join('..', 'target_pics', 'animatronik.
 target3_surf = pygame.image.load(os.path.join('..', 'target_pics', 'matan1.jpg'))
 target4_surf = pygame.image.load(os.path.join('..', 'target_pics', 'analit.jpg'))
 target5_surf = pygame.image.load(os.path.join('..', 'target_pics', 'labnik.jpg'))
+target6_surf = pygame.image.load(os.path.join('..', 'target_pics', 'Navigate.jpg'))
 
-pics = [target1_surf, target2_surf, target3_surf, target4_surf, target5_surf]
+pics = [target1_surf, target2_surf, target3_surf, target4_surf, target5_surf, target6_surf]
 target1_rect = target1_surf.get_rect(center=(250, 400))
 
 if __name__ == '__main__':

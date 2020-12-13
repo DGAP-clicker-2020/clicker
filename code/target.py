@@ -40,8 +40,8 @@ class DamageText:
 
         if self.power == 'crit':
             self.text = ui.render_outline(self.text_info,
-                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 15), self.color, BLACK, 1)
-            self.x = 190
+                                          ui.pygame.font.Font(TERMINATOR_FONT_PATH, 30), self.color, BLACK, 1)
+            self.x = 160
             self.y = 200
 
         elif self.text_info is not None:
