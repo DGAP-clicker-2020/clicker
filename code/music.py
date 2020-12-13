@@ -11,8 +11,9 @@ purchase_snd = mixer.Sound(os.path.join('..', 'sounds', 'purchase.ogg'))
 hit_snd = mixer.Sound(os.path.join('..', 'sounds', 'hit.ogg'))
 kill_snd = mixer.Sound(os.path.join('..', 'sounds', 'death.ogg'))
 pick_snd = mixer.Sound(os.path.join('..', 'sounds', 'pick.ogg'))
+crit_snd = mixer.Sound(os.path.join('..', 'sounds', 'sword.ogg'))
 
-all_sounds = [def_snd, matreshka_snd, purchase_snd, hit_snd, kill_snd, minecraft_1_snd, minecraft_2_snd, pick_snd]
+all_sounds = [def_snd, matreshka_snd, purchase_snd, hit_snd, kill_snd, minecraft_1_snd, minecraft_2_snd, pick_snd, crit_snd]
 all_music = {3: def_snd, 4: minecraft_1_snd, 5: minecraft_2_snd, 6: matreshka_snd}
 
 

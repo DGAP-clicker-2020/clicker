@@ -42,6 +42,7 @@ class Product:
         ui.screen.blit(self.text, (self.x_coord, self.y_coord))
         self.button.draw()
 
+
     def check_hold(self, current_player):
         if self.hold and self.type != 'boost':
             self.button.color = YELLOW
@@ -76,6 +77,14 @@ class Product:
                     current_player.hand_power += 10
                     current_player.money -= 10 * self.money_cost
 
+                elif self.content_of_text == 'crit chance':
+                    current_player.critical_chance += 10
+                    current_player.money -= 10 * self.money_cost
+
+                elif self.content_of_text == 'crit multi':
+                    current_player.critical_multiplier += 10
+                    current_player.money -= 10 * self.money_cost
+
             if self.button.left_clicked:
                 music.purchase_snd.play()
                 self.button.left_clicked = False
@@ -86,6 +95,14 @@ class Product:
 
                 elif self.content_of_text == 'hand power':
                     current_player.hand_power += 1
+                    current_player.money -= self.money_cost
+
+                elif self.content_of_text == 'crit chance':
+                    current_player.critical_chance += 1
+                    current_player.money -= self.money_cost
+
+                elif self.content_of_text == 'crit multi':
+                    current_player.critical_multiplier += 0.5
                     current_player.money -= self.money_cost
 
                 elif self.type == 'music' and not self.hold:
@@ -119,6 +136,8 @@ class Product:
 
 afk_power = Product('afk power', 20, 'boost', 1)
 hand_power = Product('hand power', 30, 'boost', 2)
+critical_chance = Product('crit chance', 1500, 'boost', 10)
+critical_multiplier = Product('crit multi', 1500, 'boost', 11)
 def_snd = Product('def_sound', 0, 'music', 3)
 minecraft_1_snd = Product('minecraft_1', 100, 'music', 4)
 minecraft_2_snd = Product('minecraft_2', 200, 'music', 5)
@@ -130,6 +149,8 @@ nk_background = Product('nk_picture', 5000, 'background', 9)
 products = [
     afk_power,
     hand_power,
+    critical_chance,
+    critical_multiplier,
     def_snd,
     minecraft_1_snd,
     minecraft_2_snd,

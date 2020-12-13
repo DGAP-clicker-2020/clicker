@@ -1,6 +1,7 @@
 from typing import Tuple, Callable
 
 import pygame
+from pygame import gfxdraw
 
 from settings import TERMINATOR_FONT_PATH
 

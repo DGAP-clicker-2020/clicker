@@ -17,6 +17,7 @@ def draw_objects(current_player, current_target, change_name_btn, menu_open_btn,
     """
     ui.draw_back_picture(BACK_PICTURES[current_player.player_back_pict], ui.screen)
     current_target.draw(ui.screen)
+    current_target.damage_text.draw()
     change_name_btn.draw()
     menu_open_btn.draw()
     shop_open_btn.draw()
@@ -75,15 +76,17 @@ def main():
 
             if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 if current_target.check_click(event):
-                    current_target.hurt(current_player.hand_power)
+                    current_target.hurt(current_player.hand_power, current_player.critical_chance,
+                                        current_player.critical_multiplier)
                     current_player.total_clicks += 1
                     current_player.total_damage += current_player.hand_power
 
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                current_target.hurt(current_player.hand_power)
+                current_target.hurt(current_player.hand_power, current_player.critical_chance,
+                                    current_player.critical_multiplier)
                 current_target.hit_snd.play()
 
-        current_target.hurt(current_player.afk_power / FPS)
+        current_target.afk_hurt(current_player.afk_power / FPS)
         current_player.total_damage += current_player.afk_power / FPS
 
         if current_target.died:
