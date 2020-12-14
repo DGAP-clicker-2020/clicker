@@ -20,6 +20,7 @@ def handle_new_data(new_name, players, current_player):
     """
     current_player.bg_snd.stop()
 
+    current_player.last_login = int(time.time())
     current_player.last_player = False
     really_new_player = True
 
@@ -230,6 +231,7 @@ class Player:
         """
         Метод начисляет игроку деньги за время, проведённое вне игры
         """
+        self.new_login = int(time.time())
         initial_money = self.money
         offline_time = self.new_login - self.last_login
         damage = offline_time * self.afk_power
